@@ -3,24 +3,20 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
-import { SITE } from "@/lib/constants";
+import { LOGO_PATH, OFFICES, SITE } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/metadata";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = createPageMetadata({
-  title: SITE.name,
-  description: SITE.description,
-});
+export const metadata: Metadata = {
+  ...createPageMetadata({ title: SITE.name, description: SITE.description }),
+  icons: {
+    icon: LOGO_PATH,
+    apple: LOGO_PATH,
+  },
+};
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -28,14 +24,13 @@ const jsonLd = {
   name: SITE.name,
   description: SITE.description,
   url: SITE.url,
-  telephone: SITE.phone,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: SITE.address,
-    addressLocality: "Islamabad",
-    addressCountry: "PK",
-  },
+  telephone: SITE.whatsappNumber,
+  address: [
+    { "@type": "PostalAddress", streetAddress: OFFICES.headOffice.address, addressLocality: "Peshawar", addressCountry: "PK" },
+    { "@type": "PostalAddress", streetAddress: OFFICES.islamabad.address, addressLocality: "Islamabad", addressCountry: "PK" },
+  ],
   areaServed: SITE.regions,
+  sameAs: [SITE.url],
 };
 
 export default function RootLayout({

@@ -143,6 +143,29 @@ export function TicketFiltersPanel({
             onChange={(e) => update("minSeats", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
+        <div className="space-y-2">
+          <Label>Trip Type</Label>
+          <Select value={filters.tripType || "all"} onValueChange={(v) => update("tripType", v)}>
+            <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="umrah">Umrah</SelectItem>
+              <SelectItem value="oneway">One-way</SelectItem>
+              <SelectItem value="return">Return</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label>Sort By</Label>
+          <Select value={filters.sortBy || "date"} onValueChange={(v) => update("sortBy", v)}>
+            <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="date">Date</SelectItem>
+              <SelectItem value="price">Price</SelectItem>
+              <SelectItem value="seats">Seats Left</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <Button className="w-full bg-navy text-white hover:bg-navy-light">
           <Search className="mr-2 h-4 w-4" />
           Apply Filters

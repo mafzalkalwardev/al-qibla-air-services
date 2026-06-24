@@ -1,5 +1,9 @@
 export type TicketStatus = "available" | "limited" | "sold_out";
 export type PackageStatus = "active" | "sold_out" | "coming_soon";
+export type UmrahCategory = "economy" | "standard" | "premium" | "group" | "family" | "corporate";
+export type FlyerCategory = "umrah" | "visa" | "tickets" | "tours" | "announcement";
+export type GalleryCategory = FlyerCategory | "all";
+export type TripType = "umrah" | "oneway" | "return";
 
 export interface Announcement {
   id: string;
@@ -17,6 +21,7 @@ export interface Flyer {
   link?: string;
   order: number;
   active: boolean;
+  category: FlyerCategory;
 }
 
 export interface TravelPackage {
@@ -32,6 +37,18 @@ export interface TravelPackage {
   featured: boolean;
   status: PackageStatus;
   type: "umrah" | "tour";
+  packageCode?: string;
+  category?: UmrahCategory;
+  departureCity?: string;
+  airline?: string;
+  hotelMakkah?: string;
+  hotelMadinah?: string;
+  distanceFromHaram?: string;
+  transport?: boolean;
+  visa?: boolean;
+  ziyarat?: boolean;
+  seatsLeft?: number;
+  destination?: string;
 }
 
 export interface Ticket {
@@ -54,8 +71,12 @@ export interface Ticket {
   seatsLeft: number;
   status: TicketStatus;
   baggage?: string;
+  meal?: string;
   aircraft?: string;
   notes?: string;
+  tripType?: TripType;
+  isDirect?: boolean;
+  lastUpdated?: string;
 }
 
 export interface BlogPost {
@@ -101,6 +122,11 @@ export interface Destination {
   country: string;
   image: string;
   slug: string;
+  label: string;
+  availableCount?: number;
+  startingPrice?: number;
+  currency?: string;
+  href: string;
 }
 
 export interface Service {
@@ -119,10 +145,21 @@ export interface TicketFilters {
   destination?: string;
   date?: string;
   maxPrice?: number;
+  minPrice?: number;
   minSeats?: number;
+  tripType?: TripType | "all";
+  isDirect?: boolean;
+  sortBy?: "price" | "date" | "seats";
 }
 
 export interface SyncMetadata {
   lastSyncedAt: string;
   source: string;
+}
+
+export interface GalleryItem {
+  id: string;
+  src: string;
+  alt: string;
+  category: GalleryCategory;
 }

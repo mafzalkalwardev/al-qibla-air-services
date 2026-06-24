@@ -6,8 +6,10 @@ import { cn } from "@/lib/utils";
 import { assetPath } from "@/lib/base-path";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
+import type { GalleryItem } from "@/types";
+
 interface GalleryPreviewProps {
-  images: { id: string; src: string; alt: string }[];
+  images: GalleryItem[];
 }
 
 export function GalleryPreview({ images }: GalleryPreviewProps) {

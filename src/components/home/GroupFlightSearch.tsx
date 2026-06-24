@@ -15,7 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const cities = ["Islamabad", "Lahore", "Karachi", "Peshawar", "Jeddah", "Dubai", "Madinah"];
+const cities = ["Islamabad", "Lahore", "Karachi", "Peshawar", "Sialkot", "Jeddah", "Dubai", "Madinah", "Kabul"];
+const airlines = ["All Airlines", "PIA", "Saudia", "Emirates", "Airblue", "AirSial", "Qatar Airways", "Fly Jinnah"];
 
 export function GroupFlightSearch() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export function GroupFlightSearch() {
   const [to, setTo] = useState("Jeddah");
   const [date, setDate] = useState("");
   const [passengers, setPassengers] = useState("1");
+  const [airline, setAirline] = useState("All Airlines");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ export function GroupFlightSearch() {
     if (from) params.set("fromCity", from);
     if (to) params.set("toCity", to);
     if (date) params.set("date", date);
+    if (airline !== "All Airlines") params.set("airline", airline);
     router.push(`/available-tickets/?${params.toString()}`);
   };
 
@@ -41,7 +44,7 @@ export function GroupFlightSearch() {
             <h2 className="mb-6 font-heading text-xl font-semibold text-navy md:text-2xl">
               Search Group Flights
             </h2>
-            <form onSubmit={handleSearch} className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+            <form onSubmit={handleSearch} className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
               <div className="space-y-2">
                 <Label htmlFor="from" className="flex items-center gap-1.5 text-navy">
                   <MapPin className="h-3.5 w-3.5 text-gold" /> From
@@ -94,6 +97,17 @@ export function GroupFlightSearch() {
                   <SelectContent>
                     {["1", "2", "5", "10", "15", "20", "25+"].map((n) => (
                       <SelectItem key={n} value={n}>{n}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-navy">Airline</Label>
+                <Select value={airline} onValueChange={(v) => v && setAirline(v)}>
+                  <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {airlines.map((a) => (
+                      <SelectItem key={a} value={a}>{a}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>

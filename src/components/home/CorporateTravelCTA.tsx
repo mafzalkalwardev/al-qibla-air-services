@@ -1,48 +1,42 @@
 import Link from "next/link";
-import { Building2, CheckCircle, Headphones, Shield } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-
-const benefits = [
-  { icon: Building2, title: "NGO & Corporate Accounts", desc: "Dedicated account management for organizations" },
-  { icon: Shield, title: "Consolidated Billing", desc: "Simplified invoicing and payment terms" },
-  { icon: Headphones, title: "24/7 Support", desc: "WhatsApp support for urgent travel needs" },
-  { icon: CheckCircle, title: "Group Fare Access", desc: "Exclusive B2B group ticket inventory" },
-];
+import { SITE } from "@/lib/constants";
+import { bookingMessage, whatsappLink } from "@/lib/whatsapp";
 
 export function CorporateTravelCTA() {
+  const msg = bookingMessage("corporate travel proposal", "We are an NGO/company looking for group travel management.");
+
   return (
-    <section className="section-padding bg-secondary/50">
+    <section className="section-padding bg-navy text-white">
       <div className="container-wide">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <SectionHeading
-              title="Corporate Travel Management"
-              subtitle="Trusted by NGOs, companies and organizations across Pakistan and the Gulf"
+              title="Corporate Travel Management for NGOs, Companies & Groups"
+              subtitle="Trusted by NGOs, companies, schools, universities, religious groups and delegations"
               align="left"
+              light
             />
-            <p className="mb-8 text-muted-foreground">
-              Al Qibla Air Services provides end-to-end corporate travel solutions including group
-              ticketing, visa coordination, travel insurance, and dedicated support for mission
-              travel and business trips.
+            <p className="mb-6 text-white/75">
+              Al Qibla provides group ticketing, hotels, airport transfers, visas, insurance, itinerary planning,
+              emergency changes and dedicated 24/7 WhatsApp support for organizational travel.
             </p>
-            <Link
-              href="/corporate-travel/"
-              className={cn(buttonVariants({ size: "lg" }), "bg-navy text-white hover:bg-navy-light")}
-            >
-              Learn More About Corporate Travel
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/corporate-travel/" className={cn(buttonVariants({ size: "lg" }), "bg-gold text-navy hover:bg-gold-light")}>
+                Request Corporate Travel Proposal
+              </Link>
+              <a href={whatsappLink(msg)} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border-white/30 text-white hover:bg-white/10")}>
+                WhatsApp Corporate Desk
+              </a>
+            </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {benefits.map((b) => (
-              <div
-                key={b.title}
-                className="rounded-xl border border-border/60 bg-white p-5 transition-shadow hover:shadow-md"
-              >
-                <b.icon className="mb-3 h-8 w-8 text-gold" />
-                <h3 className="font-heading font-semibold text-navy">{b.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{b.desc}</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {["Group Ticketing", "Visa Coordination", "24/7 Support", "Group Discounts", "Document Support", "Dedicated Manager"].map((item) => (
+              <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+                <span className="text-gold">✓</span> {item}
               </div>
             ))}
           </div>

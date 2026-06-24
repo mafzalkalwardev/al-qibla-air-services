@@ -1,6 +1,6 @@
 import { createPageMetadata } from "@/lib/metadata";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { SITE } from "@/lib/constants";
+import { OFFICES, SITE, TRUST_TEXT } from "@/lib/constants";
 import { CheckCircle, Globe, Heart, Shield } from "lucide-react";
 
 export const metadata = createPageMetadata({
@@ -23,7 +23,7 @@ export default function AboutPage() {
         <div className="container-wide text-center">
           <h1 className="font-heading text-4xl font-bold md:text-5xl">About {SITE.name}</h1>
           <p className="mx-auto mt-4 max-w-2xl text-white/70">
-            Your trusted partner for sacred journeys and world-class travel since our establishment in Islamabad.
+            Your trusted partner for sacred journeys and world-class travel across Pakistan and worldwide.
           </p>
         </div>
       </section>
@@ -35,7 +35,7 @@ export default function AboutPage() {
               <SectionHeading title="Our Story" align="left" />
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  {SITE.name} is a premier travel agency based at {SITE.address}. We specialize in
+                  {SITE.name} is a premier travel agency with offices in Peshawar and Islamabad. We specialize in
                   Umrah packages, group air ticketing, and corporate travel management for NGOs,
                   companies, and families across Pakistan and the Gulf region.
                 </p>
@@ -51,19 +51,22 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="rounded-2xl bg-gradient-to-br from-navy to-navy-light p-8 text-white">
-              <h3 className="font-heading text-2xl font-semibold text-gold">Service Regions</h3>
-              <ul className="mt-6 space-y-3">
-                {SITE.regions.map((region) => (
-                  <li key={region} className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-gold" />
-                    <span>{region}</span>
-                  </li>
+              <h3 className="font-heading text-2xl font-semibold text-gold">Our Offices</h3>
+              <ul className="mt-6 space-y-4 text-sm">
+                <li>
+                  <p className="font-medium text-white">{OFFICES.headOffice.label}</p>
+                  <p className="text-white/70">{OFFICES.headOffice.address}</p>
+                </li>
+                <li>
+                  <p className="font-medium text-white">{OFFICES.islamabad.label}</p>
+                  <p className="text-white/70">{OFFICES.islamabad.address}</p>
+                </li>
+              </ul>
+              <ul className="mt-6 space-y-2 border-t border-white/10 pt-4 text-xs text-white/60">
+                {TRUST_TEXT.map((t) => (
+                  <li key={t}>• {t}</li>
                 ))}
               </ul>
-              <div className="mt-8 border-t border-white/10 pt-6">
-                <p className="text-sm text-white/70">Office Location</p>
-                <p className="mt-1 font-medium">{SITE.address}</p>
-              </div>
             </div>
           </div>
         </div>

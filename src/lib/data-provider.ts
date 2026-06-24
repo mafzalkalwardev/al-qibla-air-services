@@ -14,6 +14,7 @@ import type {
   BlogPost,
   Destination,
   Flyer,
+  GalleryItem,
   Service,
   SyncMetadata,
   Testimonial,
@@ -36,7 +37,7 @@ export interface IDataProvider {
   getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
   getTestimonials(): Promise<Testimonial[]>;
   getServices(): Promise<Service[]>;
-  getGalleryImages(): Promise<{ id: string; src: string; alt: string }[]>;
+  getGalleryImages(): Promise<GalleryItem[]>;
 }
 
 class MockDataProvider implements IDataProvider {
