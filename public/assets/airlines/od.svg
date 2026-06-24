@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <rect width="120" height="120" rx="12" fill="#0A1628"/>
+  <text x="60" y="55" text-anchor="middle" fill="#C9A227" font-family="Arial,sans-serif" font-size="28" font-weight="bold">OD</text>
+  <text x="60" y="80" text-anchor="middle" fill="#E8D48B" font-family="Arial,sans-serif" font-size="10">Batik</text>
+</svg>

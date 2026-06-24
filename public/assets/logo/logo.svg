@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="95" fill="#0A1628" stroke="#C9A227" stroke-width="3"/>
+  <path d="M100 45 L130 95 L115 95 L125 140 L100 115 L75 140 L85 95 L70 95 Z" fill="#C9A227"/>
+  <text x="100" y="175" text-anchor="middle" fill="#E8D48B" font-family="Georgia,serif" font-size="12" font-weight="bold">AL QIBLA</text>
+</svg>
