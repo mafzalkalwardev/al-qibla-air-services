@@ -3,15 +3,8 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { dataProvider } from "@/lib/data-provider";
 
 export default async function AdminDashboardPage() {
-  const [
-    inquiries,
-    tickets,
-    umrah,
-    blog,
-    flyers,
-  ] = await Promise.all([
+  const [inquiries, allTickets, umrah, blog, flyers] = await Promise.all([
     getInquiryCount(),
-    getPendingReviewCount(),
     dataProvider.getTickets(),
     dataProvider.getUmrahPackages(),
     dataProvider.getBlogPosts(),
@@ -21,7 +14,7 @@ export default async function AdminDashboardPage() {
   const stats = [
     { label: "New Inquiries", value: inquiries.new, href: "/admin/inquiries/" },
     { label: "Pending Reviews", value: inquiries.pendingReviews, href: "/admin/reviews/" },
-    { label: "Active Tickets", value: tickets.filter((t) => t.status !== "sold_out").length, href: "/admin/tickets/" },
+    { label: "Active Tickets", value: allTickets.filter((t) => t.status !== "sold_out").length, href: "/admin/tickets/" },
     { label: "Umrah Packages", value: umrah.length, href: "/admin/umrah-packages/" },
     { label: "Blog Posts", value: blog.length, href: "/admin/blog/" },
     { label: "Active Flyers", value: flyers.length, href: "/admin/flyers/" },
@@ -74,8 +67,4 @@ async function getInquiryCount() {
   }
 
   return { new: newCount, pendingReviews };
-}
-
-async function getPendingReviewCount() {
-  return 0;
 }

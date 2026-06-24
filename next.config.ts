@@ -1,14 +1,14 @@
-import type { NextConfig } from "next";
+﻿import type { NextConfig } from "next";
 
-/** Full-stack mode for Vercel (admin, API routes, Supabase). Set NEXT_PUBLIC_BASE_PATH only for legacy static hosting. */
+const isGithubPages = process.env.GITHUB_PAGES === "true";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const nextConfig: NextConfig = {
+  ...(isGithubPages ? { output: "export" as const } : {}),
   ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "**.supabase.co" },
-    ],
+    unoptimized: isGithubPages,
+    remotePatterns: [{ protocol: "https", hostname: "**.supabase.co" }],
   },
   trailingSlash: true,
 };
