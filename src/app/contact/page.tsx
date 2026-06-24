@@ -1,5 +1,7 @@
 import { createPageMetadata } from "@/lib/metadata";
 import { ContactForm } from "@/components/shared/ContactForm";
+import { PageHero } from "@/components/shared/PageHero";
+import { PAGE_HEROES } from "@/lib/page-heroes";
 import { OFFICES, SITE, SOCIAL } from "@/lib/constants";
 import { FacebookIcon, InstagramIcon } from "@/components/shared/SocialIcons";
 import { MapPin, MessageCircle, Phone, Mail, Clock } from "lucide-react";
@@ -19,12 +21,7 @@ function TwitterIcon({ className = "h-4 w-4" }: { className?: string }) {
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-navy py-20 text-white">
-        <div className="container-wide text-center">
-          <h1 className="font-heading text-4xl font-bold md:text-5xl">Contact Us</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-white/70">Visit our offices in Peshawar or Islamabad. 24/7 WhatsApp support.</p>
-        </div>
-      </section>
+      <PageHero {...PAGE_HEROES.contact} />
 
       <section className="section-padding">
         <div className="container-wide">

@@ -25,10 +25,10 @@ export function CorporateTravelCTA() {
               emergency changes and dedicated 24/7 WhatsApp support for organizational travel.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link href="/corporate-travel/" className={cn(buttonVariants({ size: "lg" }), "bg-gold text-navy hover:bg-gold-light")}>
+              <Link href="/corporate-travel/" className={cn(buttonVariants({ variant: "primaryGold", size: "lg" }))}>
                 Request Corporate Travel Proposal
               </Link>
-              <a href={whatsappLink(msg)} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border-white/30 text-white hover:bg-white/10")}>
+              <a href={whatsappLink(msg)} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "outlineLight", size: "lg" }))}>
                 WhatsApp Corporate Desk
               </a>
             </div>

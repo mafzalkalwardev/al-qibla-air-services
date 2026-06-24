@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { createPageMetadata } from "@/lib/metadata";
 import { TicketsPageClient } from "@/components/tickets/TicketsPageClient";
+import { PageHero } from "@/components/shared/PageHero";
+import { PAGE_HEROES } from "@/lib/page-heroes";
 import { SITE } from "@/lib/constants";
 
 export const metadata = createPageMetadata({
@@ -12,14 +14,7 @@ export const metadata = createPageMetadata({
 export default function AvailableTicketsPage() {
   return (
     <>
-      <section className="bg-navy py-20 text-white">
-        <div className="container-wide text-center">
-          <h1 className="font-heading text-4xl font-bold md:text-5xl">Available Airlines & Group Tickets</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-white/70">
-            Browse available group tickets, Umrah flights and international routes. Prices and availability are updated regularly.
-          </p>
-        </div>
-      </section>
+      <PageHero {...PAGE_HEROES.tickets} badge="Group Flights & Umrah Routes" />
 
       <section className="section-padding">
         <div className="container-wide">

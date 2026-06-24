@@ -10,12 +10,12 @@ import { GalleryPreview } from "@/components/home/GalleryPreview";
 import { GroupFlightSearch } from "@/components/home/GroupFlightSearch";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
-import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+import { ReviewsSection } from "@/components/reviews/ReviewsSection";
 import { TicketsPreview } from "@/components/home/TicketsPreview";
 import { dataProvider } from "@/lib/data-provider";
 
 export default async function HomePage() {
-  const [announcements, flyers, destinations, umrahPackages, tickets, airlines, testimonials, galleryImages, services, blogPosts] =
+  const [announcements, flyers, destinations, umrahPackages, tickets, airlines, galleryImages, services, blogPosts] =
     await Promise.all([
       dataProvider.getAnnouncements(),
       dataProvider.getFlyers(),
@@ -23,7 +23,6 @@ export default async function HomePage() {
       dataProvider.getFeaturedUmrahPackages(),
       dataProvider.getTickets(),
       dataProvider.getAirlines(),
-      dataProvider.getTestimonials(),
       dataProvider.getGalleryImages(),
       dataProvider.getServices(),
       dataProvider.getBlogPosts(),
@@ -41,7 +40,7 @@ export default async function HomePage() {
       <CorporateTravelCTA />
       <ServicesSection services={services} />
       <AirlinePartners airlines={airlines} />
-      <TestimonialsSection testimonials={testimonials} />
+      <ReviewsSection />
       <GalleryPreview images={galleryImages} />
       <BlogPreview posts={blogPosts} />
       <ContactCTA />

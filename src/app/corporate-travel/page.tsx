@@ -1,6 +1,8 @@
 import { createPageMetadata } from "@/lib/metadata";
 import { ContactForm } from "@/components/shared/ContactForm";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { PageHero } from "@/components/shared/PageHero";
+import { PAGE_HEROES } from "@/lib/page-heroes";
 import { SITE } from "@/lib/constants";
 import { Building2, Clock, FileCheck, Headphones, Users } from "lucide-react";
 
@@ -21,14 +23,7 @@ const features = [
 export default function CorporateTravelPage() {
   return (
     <>
-      <section className="bg-navy py-20 text-white">
-        <div className="container-wide text-center">
-          <h1 className="font-heading text-4xl font-bold md:text-5xl">Corporate Travel</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-white/70">
-            End-to-end travel management for NGOs, companies, and organizations across Pakistan and the Gulf.
-          </p>
-        </div>
-      </section>
+      <PageHero {...PAGE_HEROES.corporate} />
 
       <section className="section-padding">
         <div className="container-wide">

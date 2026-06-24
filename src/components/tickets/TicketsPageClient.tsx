@@ -23,6 +23,7 @@ export function TicketsPageClient() {
     const date = searchParams.get("date");
     if (fromCity) initial.fromCity = fromCity;
     if (toCity) initial.toCity = toCity;
+    if (date) initial.date = date;
     const airline = searchParams.get("airline");
     if (airline && airline !== "All Airlines") {
       const codeMap: Record<string, string> = { PIA: "PK", Saudia: "SV", Emirates: "EK", Airblue: "PA", AirSial: "PF", "Qatar Airways": "QR", "Fly Jinnah": "9P" };

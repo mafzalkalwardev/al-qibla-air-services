@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { Toaster } from "sonner";
+import { ConditionalSiteChrome } from "@/components/layout/ConditionalSiteChrome";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
@@ -47,10 +49,14 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-full flex-col font-sans antialiased">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppFloat />
+        <ConditionalSiteChrome
+          header={<Header />}
+          footer={<Footer />}
+          whatsapp={<WhatsAppFloat />}
+        >
+          {children}
+        </ConditionalSiteChrome>
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );

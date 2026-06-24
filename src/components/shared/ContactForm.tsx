@@ -27,6 +27,7 @@ const services = [
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -35,11 +36,31 @@ export function ContactForm() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock submission — ready for future API integration
-    console.log("Inquiry submitted:", { ...form, createdAt: new Date().toISOString() });
-    setSubmitted(true);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/inquiries/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "contact",
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          service: form.service,
+          message: form.message,
+          source_page: "/contact/",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setSubmitted(true);
+    } catch {
+      setSubmitted(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -50,7 +71,7 @@ export function ContactForm() {
           <p className="mt-2 text-muted-foreground">
             Your inquiry has been received. We will contact you shortly via phone or WhatsApp.
           </p>
-          <Button className="mt-4 bg-gold text-navy hover:bg-gold-light" onClick={() => setSubmitted(false)}>
+          <Button variant="primaryGold" className="mt-4" onClick={() => setSubmitted(false)}>
             Send Another Inquiry
           </Button>
         </CardContent>
@@ -101,8 +122,8 @@ export function ContactForm() {
               placeholder="Tell us about your travel requirements..."
             />
           </div>
-          <Button type="submit" className="w-full bg-gold text-navy hover:bg-gold-light">
-            Submit Inquiry
+          <Button type="submit" variant="primaryGold" className="w-full" disabled={loading}>
+            {loading ? "Submitting..." : "Submit Inquiry"}
           </Button>
         </form>
       </CardContent>

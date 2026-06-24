@@ -100,6 +100,27 @@ export interface Testimonial {
   avatar?: string;
 }
 
+export type ReviewStatus = "pending" | "approved" | "rejected";
+
+export interface Review {
+  id: string;
+  name: string;
+  city?: string;
+  service?: string;
+  rating: number;
+  comment: string;
+  avatar_url?: string;
+  status: ReviewStatus;
+  featured: boolean;
+  created_at: string;
+}
+
+export interface ReviewStats {
+  average: number;
+  count: number;
+  distribution: Record<number, number>;
+}
+
 export interface Inquiry {
   name: string;
   email: string;

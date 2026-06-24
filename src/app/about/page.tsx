@@ -1,5 +1,7 @@
 import { createPageMetadata } from "@/lib/metadata";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { PageHero } from "@/components/shared/PageHero";
+import { PAGE_HEROES } from "@/lib/page-heroes";
 import { OFFICES, SITE, TRUST_TEXT } from "@/lib/constants";
 import { CheckCircle, Globe, Heart, Shield } from "lucide-react";
 
@@ -19,14 +21,7 @@ const values = [
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-navy py-20 text-white">
-        <div className="container-wide text-center">
-          <h1 className="font-heading text-4xl font-bold md:text-5xl">About {SITE.name}</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-white/70">
-            Your trusted partner for sacred journeys and world-class travel across Pakistan and worldwide.
-          </p>
-        </div>
-      </section>
+      <PageHero {...PAGE_HEROES.about} />
 
       <section className="section-padding">
         <div className="container-wide">

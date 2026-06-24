@@ -9,8 +9,20 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        primaryGold:
+          "bg-gold text-navy font-semibold shadow-sm hover:bg-gold-light hover:shadow-md",
+        navy: "bg-navy text-white hover:bg-navy-light",
+        white: "bg-white text-navy hover:bg-white/90",
         outline:
-          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border-border bg-background text-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+        outlineLight:
+          "border-white/30 bg-white/5 text-white hover:bg-white/15 hover:text-white",
+        outlineDark:
+          "border-navy/20 bg-transparent text-navy hover:bg-navy/5",
+        outlineGold:
+          "border-gold/50 bg-transparent text-gold hover:bg-gold/10",
+        whatsapp:
+          "bg-[#25D366] text-white font-semibold hover:bg-[#1ebe57]",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:

@@ -28,13 +28,13 @@ export function ContactCTA() {
           ))}
         </div>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ size: "lg" }), "bg-[#25D366] text-white hover:bg-[#20bd5a]")}>
+          <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "whatsapp", size: "lg" }))}>
             <MessageCircle className="mr-2 h-5 w-5" /> Chat on WhatsApp
           </a>
-          <Link href="/contact/" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border-gold text-gold hover:bg-gold/10")}>
+          <Link href="/contact/" className={cn(buttonVariants({ variant: "outlineGold", size: "lg" }))}>
             <MapPin className="mr-2 h-5 w-5" /> Contact & Maps
           </Link>
-          <Link href="/inquiry/" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border-white/30 text-white hover:bg-white/10")}>
+          <Link href="/inquiry/" className={cn(buttonVariants({ variant: "outlineLight", size: "lg" }))}>
             Book / Inquiry Form
           </Link>
         </div>

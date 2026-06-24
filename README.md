@@ -1,17 +1,79 @@
-# Al Qibla Air Services
+<div align="center">
 
-Premium travel agency website for **Al Qibla Air Services** — Umrah packages, group air ticketing, corporate travel, and worldwide destinations.
+  <img src="public/assets/logo/logo.svg" alt="Al Qibla Air Services" width="120" />
 
-**Live site:** [https://mafzalkalwardev.github.io/al-qibla-air-services/](https://mafzalkalwardev.github.io/al-qibla-air-services/)
+  # Al Qibla Air Services
 
-## Tech Stack
+  **Travel Smart. Travel Safe. Travel with Al Qibla.**
 
-- Next.js 16 (App Router) + TypeScript
-- Tailwind CSS v4 + shadcn/ui
-- Framer Motion animations
-- Static export for GitHub Pages
+  Premium travel agency platform for Umrah packages, worldwide ticketing, group flights, tours, visas, corporate travel, reviews, and admin-managed bookings.
 
-## Pages
+  ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+  ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+  ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+  ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+  ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+  ![Responsive](https://img.shields.io/badge/Responsive-Design-D6A84F?style=for-the-badge)
+  ![Admin Dashboard](https://img.shields.io/badge/Admin-Dashboard-071B3A?style=for-the-badge)
+
+</div>
+
+---
+
+## Project Showcase
+
+**Al Qibla Air Services** is a premium travel agency website and travel management platform built for Umrah packages, international and domestic tickets, available group flights, visit visa services, hotel reservations, airport transfers, corporate travel, customer reviews, inquiries, and admin-managed content.
+
+Designed for families, pilgrims, NGOs, and corporate clients across Pakistan, UAE, Saudi Arabia, Afghanistan, and worldwide.
+
+## Live Preview
+
+| | |
+|---|---|
+| **Live Website** | Coming Soon — deploy on [Vercel](https://vercel.com) |
+| **Admin Dashboard** | `/admin` |
+| **Demo Credentials** | Configure via Supabase Auth (do not commit real credentials) |
+
+> **Note:** GitHub Pages static hosting is **not suitable** for this platform (admin auth, API routes, database writes, cron sync). Use **Vercel** or another Node-compatible host.
+
+## Screenshots
+
+Add screenshots to `public/assets/readme/` and update paths below:
+
+| Homepage | Available Tickets |
+|---|---|
+| `public/assets/readme/homepage.png` | `public/assets/readme/tickets.png` |
+
+| Umrah Packages | Admin Dashboard |
+|---|---|
+| `public/assets/readme/umrah.png` | `public/assets/readme/admin.png` |
+
+| Mobile View |
+|---|
+| `public/assets/readme/mobile.png` |
+
+## Key Features
+
+- Premium responsive travel website with navy/gold branding
+- Video/image hero sections with animated flight routes
+- Umrah packages (economy, standard, premium, group, family, corporate)
+- Tour packages worldwide
+- Available tickets / group flights portal with filters
+- Explore by destination cards
+- Airline partners with logo fallbacks
+- Flyers/posters carousel
+- Gallery
+- Blog & travel news
+- **Customer review system** with admin approval workflow
+- **Inquiry & booking forms** persisted to Supabase
+- WhatsApp integration with prefilled messages
+- Google Maps for Peshawar & Islamabad offices
+- **Admin dashboard** with protected routes
+- SEO metadata, sitemap, robots.txt, local business schema
+- Future-ready ticket sync architecture (no unauthorized scraping)
+
+## Website Pages
 
 | Page | Route |
 |------|-------|
@@ -21,65 +83,163 @@ Premium travel agency website for **Al Qibla Air Services** — Umrah packages, 
 | Umrah Packages | `/umrah-packages/` |
 | Tour Packages | `/tour-packages/` |
 | Available Tickets | `/available-tickets/` |
+| Destinations | `/destinations/` |
 | Corporate Travel | `/corporate-travel/` |
 | Gallery | `/gallery/` |
-| Blog | `/blog/` |
+| Blog / News | `/blog/` |
 | Contact | `/contact/` |
+| Book / Inquiry | `/inquiry/` |
+| Admin Dashboard | `/admin/dashboard/` |
 
-## Run Locally
+## Admin Dashboard
 
-```bash
-# Install dependencies
-npm install
+Authenticated admins can manage:
 
-# Generate placeholder assets (if needed)
-node scripts/generate-assets.js
+- Announcements
+- Flyers / posters
+- Tickets (inventory, seats, pricing)
+- Umrah packages
+- Tour packages
+- Blog posts
+- Reviews (approve / reject / feature)
+- Inquiries (status, notes, CSV export)
+- Gallery
+- Airlines
+- Site settings
 
-# Start development server
-npm run dev
-```
+**Routes:** `/admin/login/`, `/admin/dashboard/`, `/admin/reviews/`, `/admin/inquiries/`, and more.
 
-Open [http://localhost:3000](http://localhost:3000)
+See [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for database and auth setup.
 
-## Build for Production
+## Motion & UI Experience
 
-```bash
-# Local production build (no base path)
-npm run build
+- `AnimatedFlightPath` — airplane icon along dotted route
+- `FloatingAircraftLayer` — subtle background aircraft/clouds
+- `MotionSection` — scroll reveal with reduced-motion support
+- `PageHero` — reusable heroes on all inner pages
+- Premium button variants (gold, navy, outline light/dark, WhatsApp)
+- Hero video fallback with poster image
+- Mobile-optimized animations
 
-# Preview GitHub Pages build with base path
-# Windows PowerShell:
-$env:NEXT_PUBLIC_BASE_PATH="/al-qibla-air-services"; npm run build; npx serve out
+## Tech Stack
 
-# macOS/Linux:
-NEXT_PUBLIC_BASE_PATH=/al-qibla-air-services npm run build && npx serve out
-```
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js 16, React 19, TypeScript |
+| Styling | Tailwind CSS 4, shadcn/ui, tw-animate-css |
+| Icons | Lucide React |
+| Animation | Framer Motion |
+| Backend | Supabase (PostgreSQL, Auth, Storage, RLS) |
+| Validation | Zod |
+| Notifications | Sonner |
+| Deployment | Vercel (recommended) |
 
-## Project Structure
+## Folder Structure
 
 ```
 src/
-├── app/           # Pages and routes
-├── components/    # UI, layout, home, tickets, shared
-├── data/          # Mock data (swap for API later)
-├── lib/           # Utils, constants, data provider
-└── types/         # TypeScript interfaces
-public/assets/     # Logo, flyers, gallery, airline images
+├── app/                    # App Router pages & API routes
+│   ├── admin/              # Protected admin dashboard
+│   └── api/                # reviews, inquiries, cron sync
+├── components/
+│   ├── admin/              # Admin sidebar, CRUD placeholders
+│   ├── cards/              # Package, ticket cards
+│   ├── forms/              # Inquiry forms
+│   ├── home/               # Homepage sections
+│   ├── layout/             # Header, Footer, WhatsApp
+│   ├── motion/             # AnimatedFlightPath, MotionSection
+│   ├── reviews/            # Review form, star rating
+│   └── shared/             # PageHero, AirlineLogo, etc.
+├── data/                   # Development fallback seed data
+├── lib/
+│   ├── supabase/           # Client, server, admin clients
+│   └── tickets/providers/  # Ticket sync abstraction
+public/assets/              # Logo, flyers, gallery, airlines
+supabase/                   # schema.sql, seed.sql
 ```
 
-## Data Architecture
+## Environment Variables
 
-Mock data lives in `src/data/` and is accessed through `IDataProvider` in `src/lib/data-provider.ts`. To connect a real database or API later, implement a new provider class and swap the export in `data-provider.ts`.
+Copy `.env.example` to `.env.local`:
 
-## Deployment
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_WHATSAPP_NUMBER=923315576169
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+CRON_SECRET=
+ADMIN_EMAIL=
+```
 
-Pushes to `main` trigger GitHub Actions which builds with `NEXT_PUBLIC_BASE_PATH=/al-qibla-air-services` and deploys to GitHub Pages.
+> **Never expose `SUPABASE_SERVICE_ROLE_KEY` on the client.**
+
+Without Supabase env vars, the site runs in **development fallback mode** using seed data from `src/data/*`.
+
+## Local Setup
+
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run lint
+```
+
+## Supabase Setup
+
+1. Create a [Supabase](https://supabase.com) project
+2. Run `supabase/schema.sql` in the SQL Editor
+3. Optionally run `supabase/seed.sql`
+4. Create storage buckets: `flyers`, `gallery`, `packages`, `blog`, `airlines`, `heroes`, `reviews`
+5. Add environment variables to `.env.local`
+6. Create admin user in Supabase Auth + insert `profiles` row
+
+Full guide: [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
+
+## Deployment (Vercel)
+
+1. Push repository to GitHub
+2. Import project in [Vercel](https://vercel.com)
+3. Add all environment variables
+4. Deploy — API routes and admin work automatically
+5. Optional: configure Vercel Cron for `/api/cron/sync-tickets/`
+
+## Asset Guides
+
+- [ASSET_GUIDE.md](./ASSET_GUIDE.md) — folder structure
+- [MISSING_ASSETS.md](./MISSING_ASSETS.md) — images to add
+- [MISSING_AIRLINE_LOGOS.md](./MISSING_AIRLINE_LOGOS.md) — airline logos
 
 ## Business Contact
 
-- **Office:** Office No.11, Askan Center, E-11/3 Markaz, Islamabad
-- **WhatsApp:** [+923315576169](https://wa.me/923315576169)
+**Head Office — Peshawar**  
+OFFICE#4 BLOCK-B, CANTONMENT PLAZA, Saddar Rd, Peshawar Cantonment, Peshawar, 25000  
+Phone: 0345 9112552
 
-## Assets
+**Islamabad Branch**  
+Office No.11, Askan Center, E-11/3 Markaz, Islamabad
 
-Replace placeholder SVGs in `public/assets/` with real logo, flyer, and gallery images. Run `node scripts/generate-assets.js` to regenerate placeholders.
+**WhatsApp:** +923315576169
+
+**Social:**  
+[Facebook](https://www.facebook.com/Alqiblaairservices/) · [Facebook Group](https://www.facebook.com/groups/201739273367417/) · [Instagram](https://www.instagram.com/alqiblaairservices/) · [X/Twitter](https://x.com/alqiblair)
+
+## Roadmap
+
+- [ ] Real-time ticket provider / official API integration
+- [ ] CSV ticket import UI in admin
+- [ ] More destination package images
+- [ ] Multi-language support (English / Urdu)
+- [ ] Payment & invoice system
+- [ ] Customer account portal
+- [ ] Advanced analytics dashboard
+
+## Compliance Note
+
+This platform must only use **authorized** ticketing data sources — official APIs, partner access, CSV imports, or admin-managed inventory. Do not bypass login, private APIs, CAPTCHA, or protected third-party systems.
+
+---
+
+<div align="center">
+  <sub>Built for Al Qibla Air Services · Travel Smart. Travel Safe. Travel with Al Qibla.</sub>
+</div>

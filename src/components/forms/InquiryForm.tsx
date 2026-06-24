@@ -12,12 +12,14 @@ import { whatsappLink } from "@/lib/whatsapp";
 
 export function InquiryForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "", phone: "", email: "", service: "", departureCity: "", travelDate: "", persons: "1", packageType: "", budget: "", message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const text = [
       `Name: ${form.name}`,
       `Phone/WhatsApp: ${form.phone}`,
@@ -31,8 +33,31 @@ export function InquiryForm() {
       form.message && `Message: ${form.message}`,
     ].filter(Boolean).join("\n");
 
+    try {
+      await fetch("/api/inquiries/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "booking",
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          service: form.service,
+          from_city: form.departureCity,
+          travel_date: form.travelDate || undefined,
+          passengers: Number(form.persons) || 1,
+          budget: form.budget ? parseFloat(form.budget.replace(/[^\d.]/g, "")) : undefined,
+          message: form.message || text,
+          source_page: "/inquiry/",
+        }),
+      });
+    } catch {
+      /* continue to WhatsApp */
+    }
+
     window.open(whatsappLink(`Hello ${SITE.name}, I would like to make a booking inquiry:\n\n${text}`), "_blank");
     setSubmitted(true);
+    setLoading(false);
   };
 
   if (submitted) {
@@ -40,8 +65,8 @@ export function InquiryForm() {
       <Card className="border-gold/30">
         <CardContent className="p-8 text-center">
           <h3 className="font-heading text-xl font-semibold text-navy">Inquiry Sent!</h3>
-          <p className="mt-2 text-muted-foreground">Your inquiry was opened in WhatsApp. We will respond shortly.</p>
-          <Button className="mt-4 bg-gold text-navy" onClick={() => setSubmitted(false)}>Send Another</Button>
+          <p className="mt-2 text-muted-foreground">Your inquiry was saved and opened in WhatsApp. We will respond shortly.</p>
+          <Button variant="primaryGold" className="mt-4" onClick={() => setSubmitted(false)}>Send Another</Button>
         </CardContent>
       </Card>
     );
@@ -78,7 +103,9 @@ export function InquiryForm() {
           </div>
           <div className="space-y-2"><Label>Budget Range</Label><Input placeholder="e.g. PKR 300,000" value={form.budget} onChange={(e) => setForm({ ...form, budget: e.target.value })} /></div>
           <div className="space-y-2"><Label>Message</Label><Textarea rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} /></div>
-          <Button type="submit" className="w-full bg-gold text-navy hover:bg-gold-light">Submit via WhatsApp</Button>
+          <Button type="submit" variant="primaryGold" className="w-full" disabled={loading}>
+            {loading ? "Submitting..." : "Submit via WhatsApp"}
+          </Button>
         </form>
       </CardContent>
     </Card>
