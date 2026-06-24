@@ -30,7 +30,7 @@ export function HeroSection() {
           className="absolute inset-0 hidden h-full w-full object-cover opacity-25 md:block"
         >
           <source src={assetPath("/assets/videos/hero-flight.mp4")} type="video/mp4" />
-          <source src={assetPath("/assets/hero.mp4")} type="video/mp4" />
+          <source src={assetPath("/assets/hero.mp4.mp4")} type="video/mp4" />
         </video>
         <FloatingAircraftLayer density="medium" />
         <AnimatedFlightPath variant="hero" className="bottom-[20%] h-32 md:h-40" />
