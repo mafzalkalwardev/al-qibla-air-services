@@ -1,9 +1,9 @@
-/** Real business assets — flyer JPEGs, logo, hero video */
+/** Travel imagery — local JPGs in public/assets (Pexels / Wikimedia, free licenses) */
 
 export const ASSETS = {
   logo: "/assets/logo/logo.png",
   heroVideo: "/assets/videos/hero-flight.mp4",
-  heroPoster: "/assets/flyers/flyer-2.jpeg",
+  heroPoster: "/assets/heroes/hero-poster.jpg",
 
   flyers: {
     umrah: "/assets/flyers/flyer-1.jpeg",
@@ -15,42 +15,63 @@ export const ASSETS = {
   },
 
   destinations: {
-    umrah: "/assets/flyers/flyer-1.jpeg",
-    ksa: "/assets/flyers/flyer-2.jpeg",
-    uae: "/assets/flyers/flyer-6.jpeg",
-    afghanistan: "/assets/flyers/flyer-2.jpeg",
-    dubaiTours: "/assets/flyers/flyer-4.jpeg",
-    malaysia: "/assets/flyers/flyer-5.jpeg",
-    thailand: "/assets/flyers/flyer-5.jpeg",
-    turkey: "/assets/flyers/flyer-4.jpeg",
-    corporate: "/assets/flyers/flyer-3.jpeg",
+    umrah: "/assets/destinations/umrah-makkah.jpg",
+    ksa: "/assets/destinations/ksa-jeddah.jpg",
+    uae: "/assets/destinations/uae-dubai.jpg",
+    afghanistan: "/assets/destinations/afghanistan.jpg",
+    dubaiTours: "/assets/destinations/dubai-tours.jpg",
+    malaysia: "/assets/destinations/malaysia-kl.jpg",
+    thailand: "/assets/destinations/thailand.jpg",
+    turkey: "/assets/destinations/turkey-istanbul.jpg",
+    corporate: "/assets/destinations/corporate-travel.jpg",
+  },
+
+  heroes: {
+    about: "/assets/heroes/about.jpg",
+    services: "/assets/heroes/services.jpg",
+    umrah: "/assets/heroes/umrah.jpg",
+    tours: "/assets/heroes/tours.jpg",
+    tickets: "/assets/heroes/tickets.jpg",
+    destinations: "/assets/heroes/destinations.jpg",
+    corporate: "/assets/heroes/corporate.jpg",
+    gallery: "/assets/heroes/gallery.jpg",
+    blog: "/assets/heroes/blog.jpg",
+    contact: "/assets/heroes/contact.jpg",
+    inquiry: "/assets/heroes/inquiry.jpg",
+    poster: "/assets/heroes/hero-poster.jpg",
   },
 
   umrahPackages: [
-    "/assets/flyers/flyer-1.jpeg",
-    "/assets/flyers/flyer-1.jpeg",
-    "/assets/flyers/flyer-1.jpeg",
-    "/assets/flyers/flyer-1.jpeg",
-    "/assets/flyers/flyer-1.jpeg",
-    "/assets/flyers/flyer-3.jpeg",
+    "/assets/packages/umrah-economy.jpg",
+    "/assets/packages/umrah-standard.jpg",
+    "/assets/packages/umrah-premium.jpg",
+    "/assets/packages/umrah-group.jpg",
+    "/assets/packages/umrah-family.jpg",
+    "/assets/packages/umrah-corporate.jpg",
   ],
 
   tourPackages: [
-    "/assets/flyers/flyer-4.jpeg",
-    "/assets/flyers/flyer-4.jpeg",
-    "/assets/flyers/flyer-5.jpeg",
-    "/assets/flyers/flyer-4.jpeg",
-    "/assets/flyers/flyer-6.jpeg",
-    "/assets/flyers/flyer-4.jpeg",
+    "/assets/packages/tours/dubai.jpg",
+    "/assets/packages/tours/turkey.jpg",
+    "/assets/packages/tours/malaysia.jpg",
+    "/assets/packages/tours/thailand.jpg",
+    "/assets/packages/tours/azerbaijan.jpg",
+    "/assets/packages/tours/northern-pakistan.jpg",
   ],
 
   blog: [
-    "/assets/flyers/flyer-1.jpeg",
-    "/assets/flyers/flyer-2.jpeg",
-    "/assets/flyers/flyer-3.jpeg",
+    "/assets/blog/umrah-guide.jpg",
+    "/assets/blog/ticketing-tips.jpg",
+    "/assets/blog/corporate-travel.jpg",
   ],
 
   gallery: [
+    "/assets/gallery/travel-1.jpg",
+    "/assets/gallery/travel-2.jpg",
+    "/assets/gallery/travel-3.jpg",
+    "/assets/gallery/travel-4.jpg",
+    "/assets/gallery/travel-5.jpg",
+    "/assets/gallery/travel-6.jpg",
     "/assets/flyers/flyer-1.jpeg",
     "/assets/flyers/flyer-2.jpeg",
     "/assets/flyers/flyer-3.jpeg",
