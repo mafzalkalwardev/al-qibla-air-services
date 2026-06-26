@@ -1,18 +1,13 @@
+import { ASSETS } from "@/lib/assets";
 import type { GalleryItem, Service } from "@/types";
 
 export const galleryImages: GalleryItem[] = [
-  { id: "g1", src: "/assets/flyers/flyer-1.jpeg", alt: "Umrah Special 2026", category: "umrah" },
-  { id: "g2", src: "/assets/flyers/flyer-2.jpeg", alt: "Group Tickets", category: "tickets" },
-  { id: "g3", src: "/assets/flyers/flyer-3.jpeg", alt: "Corporate Travel", category: "announcement" },
-  { id: "g4", src: "/assets/flyers/flyer-4.jpeg", alt: "Tour Packages", category: "tours" },
-  { id: "g5", src: "/assets/flyers/flyer-5.jpeg", alt: "Visit Visa", category: "visa" },
-  { id: "g6", src: "/assets/flyers/flyer-6.jpeg", alt: "Air Fares", category: "tickets" },
-  { id: "g7", src: "/assets/gallery/gallery-1.svg", alt: "Umrah journey", category: "umrah" },
-  { id: "g8", src: "/assets/gallery/gallery-2.svg", alt: "Dubai skyline", category: "tours" },
-  { id: "g9", src: "/assets/gallery/gallery-3.svg", alt: "Airport departure", category: "tickets" },
-  { id: "g10", src: "/assets/gallery/gallery-4.svg", alt: "Madinah", category: "umrah" },
-  { id: "g11", src: "/assets/gallery/gallery-5.svg", alt: "Travel group", category: "announcement" },
-  { id: "g12", src: "/assets/gallery/gallery-6.svg", alt: "Istanbul", category: "tours" },
+  { id: "g1", src: ASSETS.flyers.umrah, alt: "Umrah Special 2026", category: "umrah" },
+  { id: "g2", src: ASSETS.flyers.tickets, alt: "Group Tickets", category: "tickets" },
+  { id: "g3", src: ASSETS.flyers.corporate, alt: "Corporate Travel", category: "announcement" },
+  { id: "g4", src: ASSETS.flyers.tours, alt: "Tour Packages", category: "tours" },
+  { id: "g5", src: ASSETS.flyers.visa, alt: "Visit Visa", category: "visa" },
+  { id: "g6", src: ASSETS.flyers.airfares, alt: "Air Fares", category: "tickets" },
 ];
 
 export const services: Service[] = [

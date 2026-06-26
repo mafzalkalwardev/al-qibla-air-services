@@ -8,6 +8,7 @@ import { AnimatedFlightPath } from "@/components/motion/AnimatedFlightPath";
 import { FloatingAircraftLayer } from "@/components/motion/FloatingAircraftLayer";
 import { cn } from "@/lib/utils";
 import { assetPath } from "@/lib/base-path";
+import { ASSETS } from "@/lib/assets";
 import { SITE, TRUST_BADGES } from "@/lib/constants";
 
 const badgeIcons = [Award, Shield, Headphones, Globe];
@@ -18,7 +19,7 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${assetPath("/assets/gallery/hero-poster.svg")})` }}
+          style={{ backgroundImage: `url(${assetPath(ASSETS.heroPoster)})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-br from-navy/95 via-navy/80 to-royal/40" />
         <video
@@ -26,11 +27,10 @@ export function HeroSection() {
           muted
           loop
           playsInline
-          poster={assetPath("/assets/gallery/hero-poster.svg")}
-          className="absolute inset-0 hidden h-full w-full object-cover opacity-25 md:block"
+          poster={assetPath(ASSETS.heroPoster)}
+          className="absolute inset-0 hidden h-full w-full object-cover opacity-30 md:block"
         >
-          <source src={assetPath("/assets/videos/hero-flight.mp4")} type="video/mp4" />
-          <source src={assetPath("/assets/hero.mp4.mp4")} type="video/mp4" />
+          <source src={assetPath(ASSETS.heroVideo)} type="video/mp4" />
         </video>
         <FloatingAircraftLayer density="medium" />
         <AnimatedFlightPath variant="hero" className="bottom-[20%] h-32 md:h-40" />

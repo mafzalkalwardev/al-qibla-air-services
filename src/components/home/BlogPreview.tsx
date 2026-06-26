@@ -30,7 +30,7 @@ export function BlogPreview({ posts }: BlogPreviewProps) {
           ))}
         </div>
         <div className="mt-8 text-center">
-          <Link href="/blog/" className={cn(buttonVariants({ variant: "outline" }), "border-navy text-navy")}>
+          <Link href="/blog/" className={cn(buttonVariants({ variant: "outlineDark" }))}>
             Read All Articles <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </div>

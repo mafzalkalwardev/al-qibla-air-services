@@ -1,5 +1,3 @@
-import { assetPath } from "./base-path";
-
 export const SITE = {
   name: "Al Qibla Air Services",
   shortName: "Al Qibla",
@@ -63,11 +61,8 @@ export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about/", label: "About Us" },
   { href: "/services/", label: "Services" },
-  { href: "/umrah-packages/", label: "Umrah Packages" },
-  { href: "/tour-packages/", label: "Tour Packages" },
   { href: "/available-tickets/", label: "Available Tickets" },
   { href: "/destinations/", label: "Destinations" },
-  { href: "/corporate-travel/", label: "Corporate Travel" },
   { href: "/gallery/", label: "Gallery" },
   { href: "/blog/", label: "Blog" },
   { href: "/contact/", label: "Contact" },
@@ -81,10 +76,11 @@ export const SERVICE_DROPDOWN = [
   { href: "/available-tickets/", label: "Group Tickets" },
   { href: "/corporate-travel/", label: "Corporate Travel" },
   { href: "/services/#visit-visa", label: "Visit Visa Services" },
+  { href: "/inquiry/", label: "Hotel & Insurance" },
 ] as const;
 
-export const LOGO_PATH = assetPath("/assets/logo/logo.png");
-export const LOGO_ALT_PATH = assetPath("/assets/logo/logo-alt.png");
+export const LOGO_PATH = "/assets/logo/logo.png";
+export const LOGO_ALT_PATH = "/assets/logo/logo-alt.png";
 
 // Legacy alias
 export const MAP_EMBED_URL = OFFICES.islamabad.mapEmbed;

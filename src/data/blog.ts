@@ -1,3 +1,4 @@
+import { ASSETS } from "@/lib/assets";
 import type { BlogPost } from "@/types";
 
 export const blogPosts: BlogPost[] = [
@@ -15,7 +16,7 @@ export const blogPosts: BlogPost[] = [
 - **Visa & Transport**: Ensure all-inclusive packages
 
 Contact Al Qibla Air Services on WhatsApp for personalized recommendations.`,
-    coverImage: "/assets/gallery/blog-1.svg",
+    coverImage: ASSETS.blog[0],
     publishedAt: "2026-06-01",
     author: "Al Qibla Team",
     tags: ["Umrah", "Guide"],
@@ -33,7 +34,7 @@ Contact Al Qibla Air Services on WhatsApp for personalized recommendations.`,
 3. Monitor our Available Tickets page for live group inventory
 
 We update group fares regularly across ISB, LHE, PEW, SKT and more.`,
-    coverImage: "/assets/gallery/blog-2.svg",
+    coverImage: ASSETS.blog[1],
     publishedAt: "2026-05-20",
     author: "Al Qibla Team",
     tags: ["Tickets", "Tips"],
@@ -42,19 +43,18 @@ We update group fares regularly across ISB, LHE, PEW, SKT and more.`,
     id: "b3",
     slug: "corporate-travel-planning-ngos",
     title: "Corporate Travel Planning for NGOs and Companies",
-    excerpt: "How organizations can streamline group travel with dedicated corporate travel management.",
-    content: `NGOs, companies, schools, and delegations benefit from dedicated travel coordination.
+    excerpt: "How organizations can streamline group travel with dedicated support and billing.",
+    content: `NGOs, companies and schools benefit from consolidated travel management.
 
-## Corporate Services
-- Group ticketing across multiple sectors
-- Visa coordination and document support
-- 24/7 WhatsApp support for changes
-- Consolidated billing for registered organizations
+## What We Offer
+- Dedicated account manager
+- Group fares and flexible billing
+- 24/7 WhatsApp support for urgent changes
 
-Request a corporate travel proposal through our Corporate Travel page.`,
-    coverImage: "/assets/gallery/blog-3.svg",
+Contact us for a corporate travel proposal tailored to your organization.`,
+    coverImage: ASSETS.blog[2],
     publishedAt: "2026-05-10",
     author: "Al Qibla Team",
-    tags: ["Corporate", "NGO"],
+    tags: ["Corporate", "Travel"],
   },
 ];

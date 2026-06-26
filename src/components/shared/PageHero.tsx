@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { AnimatedFlightPath } from "@/components/motion/AnimatedFlightPath";
@@ -19,7 +20,7 @@ interface PageHeroProps {
 export function PageHero({
   title,
   subtitle,
-  backgroundImage = "/assets/gallery/hero-poster.svg",
+  backgroundImage = "/assets/flyers/flyer-2.jpeg",
   backgroundVideo,
   badge,
   cta,
@@ -27,13 +28,18 @@ export function PageHero({
   children,
 }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-navy py-20 md:py-28">
+    <section className="relative min-h-[42vh] overflow-hidden bg-navy md:min-h-[48vh]">
       <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30"
-          style={{ backgroundImage: `url(${assetPath(backgroundImage)})` }}
+        <Image
+          src={assetPath(backgroundImage)}
+          alt=""
+          fill
+          className="object-cover"
+          priority
+          unoptimized
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-navy/95 via-navy/85 to-royal/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-transparent to-navy/40" />
         {backgroundVideo && (
           <video
             autoPlay
@@ -41,32 +47,32 @@ export function PageHero({
             loop
             playsInline
             poster={assetPath(backgroundImage)}
-            className="absolute inset-0 hidden h-full w-full object-cover opacity-20 md:block"
+            className="absolute inset-0 hidden h-full w-full object-cover opacity-35 mix-blend-overlay md:block"
           >
             <source src={assetPath(backgroundVideo)} type="video/mp4" />
           </video>
         )}
-        <FloatingAircraftLayer />
+        <FloatingAircraftLayer density="low" />
         {showAnimatedRoute && (
-          <AnimatedFlightPath variant="section" className="bottom-0 h-24 opacity-60" />
+          <AnimatedFlightPath variant="section" className="bottom-0 h-28 opacity-50" />
         )}
       </div>
-      <div className="container-wide relative z-10">
+      <div className="container-wide relative z-10 flex min-h-[42vh] flex-col justify-center py-16 md:min-h-[48vh] md:py-20">
         {badge && (
-          <span className="mb-4 inline-block rounded-full border border-gold/30 bg-white/5 px-4 py-1 text-sm text-gold-light">
+          <span className="mb-4 inline-flex w-fit rounded-full border border-gold/40 bg-white/10 px-4 py-1.5 text-sm font-medium text-gold-light backdrop-blur-sm">
             {badge}
           </span>
         )}
-        <h1 className="font-heading text-3xl font-bold text-white md:text-4xl lg:text-5xl">
+        <h1 className="font-heading text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-4 max-w-2xl text-base text-white/75 md:text-lg">{subtitle}</p>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg">{subtitle}</p>
         )}
         {cta && (
           <Link
             href={cta.href}
-            className={cn(buttonVariants({ variant: "primaryGold", size: "lg" }), "mt-8 inline-flex")}
+            className={cn(buttonVariants({ variant: "primaryGold", size: "lg" }), "mt-8 inline-flex w-fit")}
           >
             {cta.label}
           </Link>

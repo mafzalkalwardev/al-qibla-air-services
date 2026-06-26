@@ -7,22 +7,29 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, Phone, Ticket } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { LOGO_PATH, NAV_LINKS, SERVICE_DROPDOWN, SITE } from "@/lib/constants";
+import { LOGO_PATH, SERVICE_DROPDOWN, SITE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { assetPath } from "@/lib/base-path";
 
-const desktopNav = [
+/** Top-level nav — Umrah, Tours, Corporate live under Services dropdown */
+const MAIN_NAV = [
   { href: "/", label: "Home" },
   { href: "/about/", label: "About Us" },
-  { href: "/umrah-packages/", label: "Umrah Packages" },
-  { href: "/tour-packages/", label: "Tour Packages" },
   { href: "/available-tickets/", label: "Available Tickets" },
   { href: "/destinations/", label: "Destinations" },
-  { href: "/corporate-travel/", label: "Corporate Travel" },
   { href: "/gallery/", label: "Gallery" },
   { href: "/blog/", label: "Blog" },
   { href: "/contact/", label: "Contact" },
-];
+] as const;
+
+const MOBILE_EXTRA = [
+  { href: "/inquiry/", label: "Book / Inquiry" },
+] as const;
+
+function isServiceActive(pathname: string | null) {
+  const servicePaths = ["/services", "/umrah-packages", "/tour-packages", "/corporate-travel"];
+  return servicePaths.some((p) => pathname?.startsWith(p));
+}
 
 export function Header() {
   const pathname = usePathname();
@@ -31,7 +38,7 @@ export function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -43,48 +50,43 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b border-white/10 bg-navy/90 backdrop-blur-lg transition-shadow duration-300",
-        scrolled && "shadow-lg shadow-black/20"
+        "sticky top-0 z-50 border-b border-white/10 bg-navy/95 backdrop-blur-xl transition-all duration-300",
+        scrolled && "shadow-xl shadow-black/25"
       )}
     >
-      <div className="container-wide flex h-[72px] items-center justify-between gap-3 lg:h-[76px]">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
+      <div className="container-wide flex h-20 items-center justify-between gap-4 lg:h-[88px]">
+        <Link href="/" className="flex shrink-0 items-center gap-3">
           <Image
             src={assetPath(LOGO_PATH)}
             alt={SITE.name}
-            width={52}
-            height={52}
-            className="h-11 w-11 rounded-lg object-contain lg:h-12 lg:w-12"
+            width={64}
+            height={64}
+            className="h-14 w-14 rounded-xl object-contain ring-1 ring-white/10 lg:h-16 lg:w-16"
             unoptimized
             priority
           />
           <div className="hidden min-w-0 sm:block">
-            <p className="font-heading text-sm font-bold leading-tight text-white lg:text-[15px]">
+            <p className="font-heading text-base font-bold leading-tight text-white lg:text-lg">
               Al Qibla Air Services
             </p>
-            <p className="text-[10px] text-gold-light lg:text-xs">Travel Smart. Travel Safe.</p>
+            <p className="text-xs text-gold-light lg:text-sm">Travel Smart. Travel Safe.</p>
           </div>
         </Link>
 
-        <nav className="hidden items-center xl:flex">
-          <Link
-            href="/"
-            className={cn(
-              "rounded-md px-2.5 py-2 text-xs font-medium transition-colors lg:text-sm",
-              isActive("/") ? "text-gold" : "text-white/80 hover:text-gold"
-            )}
-          >
-            Home
-          </Link>
-          <Link
-            href="/about/"
-            className={cn(
-              "rounded-md px-2.5 py-2 text-xs font-medium transition-colors lg:text-sm",
-              isActive("/about/") ? "text-gold" : "text-white/80 hover:text-gold"
-            )}
-          >
-            About Us
-          </Link>
+        <nav className="hidden items-center gap-0.5 lg:flex xl:gap-1">
+          {MAIN_NAV.slice(0, 2).map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "whitespace-nowrap rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                isActive(link.href) ? "bg-white/10 text-gold" : "text-white/85 hover:bg-white/5 hover:text-gold"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
+
           <div
             className="relative"
             onMouseEnter={() => setServicesOpen(true)}
@@ -93,33 +95,37 @@ export function Header() {
             <button
               type="button"
               className={cn(
-                "inline-flex items-center gap-1 rounded-md px-2.5 py-2 text-xs font-medium transition-colors lg:text-sm",
-                pathname?.startsWith("/services") ? "text-gold" : "text-white/80 hover:text-gold"
+                "inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                isServiceActive(pathname) ? "bg-white/10 text-gold" : "text-white/85 hover:bg-white/5 hover:text-gold"
               )}
             >
-              Services <ChevronDown className="h-3.5 w-3.5" />
+              Services
+              <ChevronDown className={cn("h-4 w-4 transition-transform", servicesOpen && "rotate-180")} />
             </button>
             {servicesOpen && (
-              <div className="absolute left-0 top-full z-50 mt-1 w-56 rounded-xl border border-white/10 bg-navy py-1.5 shadow-2xl">
-                {SERVICE_DROPDOWN.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="block px-4 py-2 text-sm text-white/85 hover:bg-white/10 hover:text-gold"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              <div className="absolute left-0 top-full z-50 pt-2">
+                <div className="min-w-[240px] rounded-xl border border-white/10 bg-navy py-2 shadow-2xl">
+                  {SERVICE_DROPDOWN.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block px-4 py-2.5 text-sm text-white/90 transition-colors hover:bg-white/10 hover:text-gold"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>
-          {desktopNav.slice(2, 8).map((link) => (
+
+          {MAIN_NAV.slice(2).map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "rounded-md px-2 py-2 text-xs font-medium transition-colors lg:px-2.5 lg:text-sm",
-                isActive(link.href) ? "text-gold" : "text-white/80 hover:text-gold"
+                "whitespace-nowrap rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                isActive(link.href) ? "bg-white/10 text-gold" : "text-white/85 hover:bg-white/5 hover:text-gold"
               )}
             >
               {link.label}
@@ -127,50 +133,52 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <Link
             href="/available-tickets/"
-            className={cn(buttonVariants({ variant: "outlineLight", size: "sm" }), "hidden md:inline-flex")}
+            className={cn(buttonVariants({ variant: "outlineLight", size: "default" }), "hidden md:inline-flex h-10 px-4")}
           >
-            <Ticket className="mr-1.5 h-4 w-4" />
+            <Ticket className="mr-2 h-4 w-4" />
             Check Tickets
           </Link>
           <a
             href={SITE.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className={cn(buttonVariants({ variant: "primaryGold", size: "sm" }))}
+            className={cn(buttonVariants({ variant: "primaryGold", size: "default" }), "h-10 px-4")}
           >
-            <Phone className="mr-1.5 h-4 w-4" />
+            <Phone className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Book on </span>WhatsApp
           </a>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
-              className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "text-white hover:bg-white/10 xl:hidden")}
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "icon" }),
+                "h-10 w-10 text-white hover:bg-white/10 lg:hidden"
+              )}
             >
               <Menu className="h-5 w-5" />
               <span className="sr-only">Open menu</span>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[min(100vw-2rem,320px)] overflow-y-auto bg-navy text-white">
+            <SheetContent side="right" className="w-[min(100vw-2rem,340px)] overflow-y-auto bg-navy text-white">
               <SheetHeader>
-                <SheetTitle className="text-left text-white">{SITE.name}</SheetTitle>
+                <SheetTitle className="text-left font-heading text-lg text-white">{SITE.name}</SheetTitle>
               </SheetHeader>
-              <nav className="mt-6 flex flex-col gap-0.5">
-                <p className="px-4 py-2 text-xs font-semibold uppercase tracking-wide text-gold">Menu</p>
-                {NAV_LINKS.filter((l) => l.href !== "/inquiry/").map((link) => (
+              <nav className="mt-8 flex flex-col gap-1">
+                {[...MAIN_NAV, ...MOBILE_EXTRA].map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setOpen(false)}
                     className={cn(
-                      "rounded-lg px-4 py-3 text-sm font-medium hover:bg-white/10",
+                      "rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-white/10",
                       isActive(link.href) ? "text-gold" : "text-white/90"
                     )}
                   >
                     {link.label}
                   </Link>
                 ))}
-                <p className="mt-4 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-gold">Services</p>
+                <p className="mt-6 px-4 pb-1 text-xs font-semibold uppercase tracking-wider text-gold">Services</p>
                 {SERVICE_DROPDOWN.map((item) => (
                   <Link
                     key={item.href}

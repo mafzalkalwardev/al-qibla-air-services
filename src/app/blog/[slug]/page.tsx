@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createPageMetadata } from "@/lib/metadata";
-import { assetPath } from "@/lib/base-path";
 import { dataProvider } from "@/lib/data-provider";
+import { PageHero } from "@/components/shared/PageHero";
+import { HERO_VIDEO } from "@/lib/assets";
 import { ArrowLeft } from "lucide-react";
 
 interface BlogPostPageProps {
@@ -33,33 +33,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <article>
-      <section className="bg-navy py-16 text-white">
-        <div className="container-wide max-w-3xl">
-          <Link href="/blog/" className="inline-flex items-center text-sm text-gold-light hover:text-gold">
-            <ArrowLeft className="mr-1 h-4 w-4" /> Back to Blog
-          </Link>
-          <h1 className="mt-4 font-heading text-3xl font-bold md:text-4xl">{post.title}</h1>
-          <p className="mt-3 text-white/60">
-            {post.author} ·{" "}
-            {new Date(post.publishedAt).toLocaleDateString("en-PK", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </p>
-        </div>
-      </section>
-
-      <div className="container-wide max-w-3xl section-padding">
-        <div className="relative mb-8 aspect-[16/9] overflow-hidden rounded-xl">
-          <Image
-            src={assetPath(post.coverImage)}
-            alt={post.title}
-            fill
-            className="object-cover"
-            unoptimized
-          />
-        </div>
+      <PageHero
+        title={post.title}
+        subtitle={`${post.author} · ${new Date(post.publishedAt).toLocaleDateString("en-PK", { day: "numeric", month: "long", year: "numeric" })}`}
+        backgroundImage={post.coverImage}
+        backgroundVideo={HERO_VIDEO}
+        badge={post.tags[0]}
+      />
+      <div className="container-wide max-w-3xl pb-16 pt-4">
+        <Link href="/blog/" className="mb-6 inline-flex items-center text-sm text-royal hover:text-gold">
+          <ArrowLeft className="mr-1 h-4 w-4" /> Back to Blog
+        </Link>
         <div className="prose prose-navy max-w-none">
           {post.content.split("\n").map((paragraph, i) => {
             if (paragraph.startsWith("## ")) {

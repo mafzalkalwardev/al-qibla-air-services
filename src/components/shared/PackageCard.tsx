@@ -63,7 +63,7 @@ export function PackageCard({ pkg, bookLabel = "Inquire Now" }: PackageCardProps
       <CardFooter className="gap-2">
         <Link
           href={pkg.type === "umrah" ? "/umrah-packages/" : "/tour-packages/"}
-          className={cn(buttonVariants({ variant: "outline" }), "flex-1 border-navy text-navy hover:bg-navy hover:text-white")}
+          className={cn(buttonVariants({ variant: "outlineDark" }), "flex-1")}
         >
           Details
         </Link>
@@ -71,7 +71,7 @@ export function PackageCard({ pkg, bookLabel = "Inquire Now" }: PackageCardProps
           href={`${SITE.whatsapp}?text=${whatsappMessage}`}
           target="_blank"
           rel="noopener noreferrer"
-          className={cn(buttonVariants(), "flex-1 bg-gold text-navy hover:bg-gold-light")}
+          className={cn(buttonVariants({ variant: "primaryGold" }), "flex-1")}
         >
           {bookLabel}
         </a>

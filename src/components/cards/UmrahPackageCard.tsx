@@ -54,8 +54,8 @@ export function UmrahPackageCard({ pkg }: UmrahPackageCardProps) {
         </div>
       </CardContent>
       <CardFooter className="gap-2">
-        <Link href="/umrah-packages/" className={cn(buttonVariants({ variant: "outline" }), "flex-1")}>Details</Link>
-        <a href={whatsappLink(msg)} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants(), "flex-1 bg-gold text-navy hover:bg-gold-light")}>
+        <Link href="/umrah-packages/" className={cn(buttonVariants({ variant: "outlineDark", size: "default" }), "flex-1")}>Details</Link>
+        <a href={whatsappLink(msg)} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "primaryGold", size: "default" }), "flex-1")}>
           Book Now
         </a>
       </CardFooter>
