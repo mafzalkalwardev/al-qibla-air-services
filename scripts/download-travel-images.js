@@ -12,33 +12,36 @@ const URLS = {
   umrah: "https://area.az/frontend/web/uploads/images/blog/Kaaba/Ok/3.jpg",
   ksa: "https://sabaoon.com/assets/images/ksa.jpg",
   uae: "https://saddatair.pk/assets/img/uae%20(1).jpg",
+  dubaiTours: "https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg",
+  afghanistan: "https://images.pexels.com/photos/1365425/pexels-photo-1365425.jpeg",
   malaysia:
     "https://www.mangobaaz.com/wp-content/uploads/2019/02/http___cdn.cnn_.com_cnnnext_dam_assets_170606121243-malaysia-travel-destination-shutterstock-397085455.jpg",
   thailand:
     "https://explore-live.s3.eu-west-1.amazonaws.com/medialibraries/explore/explore-media/destinations/asia/thailand/thailand-main.jpg?ext=.jpg&width=1920&format=webp&quality=80&v=201704211108%201920w",
   turkeyHeritage: "https://image.hurimg.com/i/hurriyet/75/0x0/5b1162da66be5d1540b3d68b.jpg",
+  corporate: "https://images.pexels.com/photos/3184460/pexels-photo-3184460.jpeg",
   azerbaijan:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSQgV-uhh3rOOCyHct19HL1mJohtyIl77sxg&s",
 };
 
 /** relative path -> image URL */
 const IMAGES = {
-  // Destinations
+  // Destinations — each card uses a distinct image
   "destinations/umrah-makkah.jpg": URLS.umrah,
   "destinations/ksa-jeddah.jpg": URLS.ksa,
   "destinations/uae-dubai.jpg": URLS.uae,
-  "destinations/afghanistan.jpg": URLS.uae,
-  "destinations/dubai-tours.jpg": URLS.uae,
+  "destinations/afghanistan.jpg": URLS.afghanistan,
+  "destinations/dubai-tours.jpg": URLS.dubaiTours,
   "destinations/malaysia-kl.jpg": URLS.malaysia,
   "destinations/thailand.jpg": URLS.thailand,
   "destinations/turkey-istanbul.jpg": URLS.turkeyHeritage,
-  "destinations/corporate-travel.jpg": URLS.thailand,
+  "destinations/corporate-travel.jpg": URLS.corporate,
 
   // Page heroes
   "heroes/umrah.jpg": URLS.umrah,
   "heroes/tours.jpg": URLS.malaysia,
   "heroes/destinations.jpg": URLS.umrah,
-  "heroes/corporate.jpg": URLS.thailand,
+  "heroes/corporate.jpg": URLS.corporate,
 
   // Umrah packages
   "packages/umrah-economy.jpg": URLS.umrah,
@@ -49,7 +52,7 @@ const IMAGES = {
   "packages/umrah-corporate.jpg": URLS.umrah,
 
   // Tour packages
-  "packages/tours/dubai.jpg": URLS.uae,
+  "packages/tours/dubai.jpg": URLS.dubaiTours,
   "packages/tours/turkey.jpg": URLS.turkeyHeritage,
   "packages/tours/malaysia.jpg": URLS.malaysia,
   "packages/tours/thailand.jpg": URLS.thailand,
