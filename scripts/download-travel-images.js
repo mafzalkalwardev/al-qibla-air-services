@@ -1,84 +1,78 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /**
- * Downloads travel stock photos (Unsplash / Pexels / Wikimedia — free licenses)
- * Run: node scripts/download-travel-images.js
+ * Downloads destination, tour, and hero images from configured URLs.
+ * Run: npm run download-images
  */
 const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "public", "assets");
 
-function pexels(id) {
-  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1400`;
-}
+const URLS = {
+  umrah: "https://area.az/frontend/web/uploads/images/blog/Kaaba/Ok/3.jpg",
+  ksa: "https://sabaoon.com/assets/images/ksa.jpg",
+  uae: "https://saddatair.pk/assets/img/uae%20(1).jpg",
+  malaysia:
+    "https://www.mangobaaz.com/wp-content/uploads/2019/02/http___cdn.cnn_.com_cnnnext_dam_assets_170606121243-malaysia-travel-destination-shutterstock-397085455.jpg",
+  thailand:
+    "https://explore-live.s3.eu-west-1.amazonaws.com/medialibraries/explore/explore-media/destinations/asia/thailand/thailand-main.jpg?ext=.jpg&width=1920&format=webp&quality=80&v=201704211108%201920w",
+  turkeyHeritage: "https://image.hurimg.com/i/hurriyet/75/0x0/5b1162da66be5d1540b3d68b.jpg",
+  azerbaijan:
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSQgV-uhh3rOOCyHct19HL1mJohtyIl77sxg&s",
+};
 
 /** relative path -> image URL */
 const IMAGES = {
   // Destinations
-  "destinations/umrah-makkah.jpg": pexels(3278215),
-  "destinations/ksa-jeddah.jpg": pexels(912050),
-  "destinations/uae-dubai.jpg": pexels(3581369),
-  "destinations/afghanistan.jpg": pexels(3601425),
-  "destinations/dubai-tours.jpg": pexels(3250610),
-  "destinations/malaysia-kl.jpg": pexels(616401),
-  "destinations/thailand.jpg": pexels(3608268),
-  "destinations/turkey-istanbul.jpg": pexels(16431171),
-  "destinations/corporate-travel.jpg": pexels(3184292),
+  "destinations/umrah-makkah.jpg": URLS.umrah,
+  "destinations/ksa-jeddah.jpg": URLS.ksa,
+  "destinations/uae-dubai.jpg": URLS.uae,
+  "destinations/afghanistan.jpg": URLS.uae,
+  "destinations/dubai-tours.jpg": URLS.uae,
+  "destinations/malaysia-kl.jpg": URLS.malaysia,
+  "destinations/thailand.jpg": URLS.thailand,
+  "destinations/turkey-istanbul.jpg": URLS.turkeyHeritage,
+  "destinations/corporate-travel.jpg": URLS.thailand,
 
   // Page heroes
-  "heroes/hero-poster.jpg": pexels(912050),
-  "heroes/about.jpg": pexels(3184418),
-  "heroes/services.jpg": pexels(460672),
-  "heroes/umrah.jpg": pexels(3278215),
-  "heroes/tours.jpg": pexels(1486222),
-  "heroes/tickets.jpg": pexels(6260649),
-  "heroes/destinations.jpg": pexels(1486222),
-  "heroes/corporate.jpg": pexels(3184292),
-  "heroes/gallery.jpg": pexels(2506923),
-  "heroes/blog.jpg": pexels(6260649),
-  "heroes/contact.jpg": pexels(7688336),
-  "heroes/inquiry.jpg": pexels(460672),
+  "heroes/umrah.jpg": URLS.umrah,
+  "heroes/tours.jpg": URLS.malaysia,
+  "heroes/destinations.jpg": URLS.umrah,
+  "heroes/corporate.jpg": URLS.thailand,
 
   // Umrah packages
-  "packages/umrah-economy.jpg": pexels(3278215),
-  "packages/umrah-standard.jpg": pexels(3278215),
-  "packages/umrah-premium.jpg": pexels(3278215),
-  "packages/umrah-group.jpg": pexels(3278215),
-  "packages/umrah-family.jpg": pexels(3278215),
-  "packages/umrah-corporate.jpg": pexels(3184292),
+  "packages/umrah-economy.jpg": URLS.umrah,
+  "packages/umrah-standard.jpg": URLS.umrah,
+  "packages/umrah-premium.jpg": URLS.umrah,
+  "packages/umrah-group.jpg": URLS.umrah,
+  "packages/umrah-family.jpg": URLS.umrah,
+  "packages/umrah-corporate.jpg": URLS.umrah,
 
   // Tour packages
-  "packages/tours/dubai.jpg": pexels(3581369),
-  "packages/tours/turkey.jpg": pexels(16431171),
-  "packages/tours/malaysia.jpg": pexels(616401),
-  "packages/tours/thailand.jpg": pexels(3608268),
-  "packages/tours/azerbaijan.jpg": pexels(3601425),
-  "packages/tours/northern-pakistan.jpg": pexels(417173),
+  "packages/tours/dubai.jpg": URLS.uae,
+  "packages/tours/turkey.jpg": URLS.turkeyHeritage,
+  "packages/tours/malaysia.jpg": URLS.malaysia,
+  "packages/tours/thailand.jpg": URLS.thailand,
+  "packages/tours/azerbaijan.jpg": URLS.azerbaijan,
 
   // Blog
-  "blog/umrah-guide.jpg": pexels(3278215),
-  "blog/ticketing-tips.jpg": pexels(6260649),
-  "blog/corporate-travel.jpg": pexels(3184292),
-
-  // Gallery extras
-  "gallery/travel-1.jpg": pexels(912050),
-  "gallery/travel-2.jpg": pexels(1486222),
-  "gallery/travel-3.jpg": pexels(2506923),
-  "gallery/travel-4.jpg": pexels(3581369),
-  "gallery/travel-5.jpg": pexels(16431171),
-  "gallery/travel-6.jpg": pexels(616401),
+  "blog/umrah-guide.jpg": URLS.umrah,
 };
 
 async function downloadFile(url, destPath) {
   const dir = path.dirname(destPath);
   fs.mkdirSync(dir, { recursive: true });
   const res = await fetch(url, {
-    headers: { "User-Agent": "AlQiblaAirServices/1.0 (asset-setup)" },
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+    },
     redirect: "follow",
   });
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
   const buf = Buffer.from(await res.arrayBuffer());
-  if (buf.length < 5000) throw new Error(`File too small (${buf.length} bytes)`);
+  if (buf.length < 2000) throw new Error(`File too small (${buf.length} bytes)`);
   fs.writeFileSync(destPath, buf);
   console.log(`✓ ${path.relative(ROOT, destPath)} (${Math.round(buf.length / 1024)} KB)`);
 }

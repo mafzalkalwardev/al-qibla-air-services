@@ -27,18 +27,31 @@ export default async function DestinationsPage() {
           <SectionHeading title="Popular Destinations & Services" />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {destinations.map((dest) => (
-              <Link key={dest.id} href={dest.href} className="card-premium group overflow-hidden">
+              <Link key={dest.id} href={dest.href} className="destination-card group">
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <Image src={assetPath(dest.image)} alt={dest.label} fill className="object-cover transition-transform group-hover:scale-105" unoptimized />
+                  <Image
+                    src={assetPath(dest.image)}
+                    alt={dest.label}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
                 </div>
                 <div className="p-5">
                   <h2 className="font-heading text-xl font-semibold text-navy">{dest.label}</h2>
-                  <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="h-3.5 w-3.5" />{dest.country}</p>
+                  <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
+                    <MapPin className="h-3.5 w-3.5 shrink-0 text-gold" />
+                    {dest.country}
+                  </p>
                   {dest.startingPrice && (
-                    <p className="mt-2 text-lg font-bold text-gold">From {formatPrice(dest.startingPrice, dest.currency || "PKR")}</p>
+                    <p className="mt-2 text-lg font-bold text-gold">
+                      From {formatPrice(dest.startingPrice, dest.currency || "PKR")}
+                    </p>
                   )}
-                  <span className="mt-3 inline-flex items-center text-sm font-medium text-royal group-hover:text-gold">
-                    Explore <ArrowRight className="ml-1 h-4 w-4" />
+                  <span className="mt-3 inline-flex items-center text-sm font-medium text-royal transition-colors group-hover:text-gold">
+                    Explore <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </span>
                 </div>
               </Link>

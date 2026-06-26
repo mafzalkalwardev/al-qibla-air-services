@@ -21,15 +21,17 @@ export function PackageCard({ pkg, bookLabel = "Inquire Now" }: PackageCardProps
   );
 
   return (
-    <Card className="group overflow-hidden border border-border/60 transition-all hover:border-gold/50 hover:shadow-lg">
+    <Card className="card-premium group overflow-hidden">
       <div className="relative aspect-[4/3] overflow-hidden bg-navy-light">
         <Image
           src={assetPath(pkg.image)}
           alt={pkg.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
           unoptimized
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy/40 via-transparent to-transparent" />
         {pkg.featured && (
           <Badge className="absolute left-3 top-3 bg-gold text-navy">Featured</Badge>
         )}

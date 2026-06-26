@@ -39,19 +39,19 @@ Designed for families, pilgrims, NGOs, and corporate clients across Pakistan, UA
 
 ## Screenshots
 
-Add screenshots to `public/assets/readme/` and update paths below:
+Captured from the local dev build (`npm run capture-screenshots`).
 
 | Homepage | Available Tickets |
 |---|---|
-| `public/assets/readme/homepage.png` | `public/assets/readme/tickets.png` |
+| ![Homepage](./public/assets/readme/homepage.png) | ![Available Tickets](./public/assets/readme/tickets.png) |
 
-| Umrah Packages | Admin Dashboard |
+| Umrah Packages | Admin Login |
 |---|---|
-| `public/assets/readme/umrah.png` | `public/assets/readme/admin.png` |
+| ![Umrah Packages](./public/assets/readme/umrah.png) | ![Admin Login](./public/assets/readme/admin.png) |
 
 | Mobile View |
 |---|
-| `public/assets/readme/mobile.png` |
+| ![Mobile Homepage](./public/assets/readme/mobile.png) |
 
 ## Key Features
 
@@ -183,6 +183,7 @@ npm install
 npm run dev      # http://localhost:3000
 npm run build
 npm run lint
+npm run capture-screenshots   # requires dev server running; saves to public/assets/readme/
 ```
 
 ## Supabase Setup

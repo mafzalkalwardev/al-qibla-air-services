@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { MotionSection } from "@/components/motion/MotionSection";
+import { MotionStagger, MotionStaggerItem } from "@/components/motion/MotionStagger";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { TicketCard } from "@/components/tickets/TicketCard";
 import type { Ticket } from "@/types";
@@ -14,16 +16,20 @@ export function TicketsPreview({ tickets }: TicketsPreviewProps) {
   return (
     <section className="section-padding">
       <div className="container-wide">
-        <SectionHeading
-          title="Available Group Tickets"
-          subtitle="Live group fare inventory — book early for best seats"
-        />
-        <div className="grid gap-4 md:grid-cols-2">
+        <MotionSection>
+          <SectionHeading
+            title="Available Group Tickets"
+            subtitle="Live group fare inventory — book early for best seats"
+          />
+        </MotionSection>
+        <MotionStagger className="grid gap-4 md:grid-cols-2">
           {tickets.slice(0, 4).map((ticket) => (
-            <TicketCard key={ticket.id} ticket={ticket} compact />
+            <MotionStaggerItem key={ticket.id}>
+              <TicketCard ticket={ticket} compact />
+            </MotionStaggerItem>
           ))}
-        </div>
-        <div className="mt-10 text-center">
+        </MotionStagger>
+        <MotionSection delay={0.1} className="mt-10 text-center">
           <Link
             href="/available-tickets/"
             className={cn(buttonVariants({ size: "lg" }), "bg-gold text-navy hover:bg-gold-light")}
@@ -31,7 +37,7 @@ export function TicketsPreview({ tickets }: TicketsPreviewProps) {
             View All Available Tickets
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
-        </div>
+        </MotionSection>
       </div>
     </section>
   );

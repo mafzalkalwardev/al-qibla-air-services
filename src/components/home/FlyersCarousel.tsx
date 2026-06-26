@@ -4,10 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { MotionSection } from "@/components/motion/MotionSection";
 import { assetPath } from "@/lib/base-path";
 import { SITE } from "@/lib/constants";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -32,7 +34,9 @@ export function FlyersCarousel({ flyers }: FlyersCarouselProps) {
   return (
     <section className="section-padding">
       <div className="container-wide">
-        <SectionHeading title="Latest Offers & Flyers" subtitle="Umrah, visas, group tickets and tour promotions" />
+        <MotionSection>
+          <SectionHeading title="Latest Offers & Flyers" subtitle="Umrah, visas, group tickets and tour promotions" />
+        </MotionSection>
         <Carousel opts={{ align: "start", loop: true }} plugins={[Autoplay({ delay: 4500 })]} className="w-full">
           <CarouselContent className="-ml-4">
             {flyers.map((flyer) => (
@@ -75,13 +79,30 @@ export function FlyersCarousel({ flyers }: FlyersCarouselProps) {
         </Carousel>
       </div>
 
+      <AnimatePresence>
       {preview && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-navy/90 p-4" onClick={() => setPreview(null)} role="dialog" aria-modal="true">
-          <button type="button" className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white" onClick={() => setPreview(null)} aria-label="Close">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-navy/90 p-4 backdrop-blur-sm"
+          onClick={() => setPreview(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <button type="button" className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20" onClick={() => setPreview(null)} aria-label="Close">
             <X className="h-6 w-6" />
           </button>
-          <div className="relative max-h-[85vh] max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
-            <Image src={assetPath(preview.image)} alt={preview.title} width={600} height={800} className="mx-auto max-h-[75vh] w-auto rounded-xl object-contain" unoptimized />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 8 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="relative max-h-[85vh] max-w-lg w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image src={assetPath(preview.image)} alt={preview.title} width={600} height={800} className="mx-auto max-h-[75vh] w-auto rounded-xl object-contain shadow-2xl" unoptimized />
             <div className="mt-4 flex justify-center gap-3">
               {preview.link && (
                 <Link href={preview.link} className={cn(buttonVariants({ variant: "outline" }), "border-white text-white")}>
@@ -92,9 +113,10 @@ export function FlyersCarousel({ flyers }: FlyersCarouselProps) {
                 Book on WhatsApp
               </a>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </section>
   );
 }

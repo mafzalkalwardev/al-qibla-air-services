@@ -5,7 +5,7 @@ import { ConditionalSiteChrome } from "@/components/layout/ConditionalSiteChrome
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
-import { LOGO_PATH, OFFICES, SITE } from "@/lib/constants";
+import { OFFICES, SITE } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/metadata";
 import "./globals.css";
 
@@ -15,8 +15,8 @@ const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["lati
 export const metadata: Metadata = {
   ...createPageMetadata({ title: SITE.name, description: SITE.description }),
   icons: {
-    icon: LOGO_PATH,
-    apple: LOGO_PATH,
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/icon.png", type: "image/png" }],
   },
 };
 

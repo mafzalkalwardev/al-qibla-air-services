@@ -19,9 +19,17 @@ export function UmrahPackageCard({ pkg }: UmrahPackageCardProps) {
   const msg = bookingMessage(`Umrah package ${pkg.packageCode || pkg.title}`, `Duration: ${pkg.duration}\nPrice: ${formatPrice(pkg.price, pkg.currency)}`);
 
   return (
-    <Card className="card-premium overflow-hidden">
+    <Card className="card-premium group overflow-hidden">
       <div className="relative aspect-[16/10] overflow-hidden bg-navy-light">
-        <Image src={assetPath(pkg.image)} alt={pkg.title} fill className="object-cover" unoptimized />
+        <Image
+          src={assetPath(pkg.image)}
+          alt={pkg.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          unoptimized
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy/30 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         {pkg.packageCode && (
           <Badge className="absolute left-3 top-3 bg-navy/90 text-gold">{pkg.packageCode}</Badge>
         )}

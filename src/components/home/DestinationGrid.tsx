@@ -3,6 +3,8 @@ import Image from "next/image";
 import { ArrowRight, MapPin } from "lucide-react";
 import { assetPath } from "@/lib/base-path";
 import { formatPrice } from "@/lib/ticket-filters";
+import { MotionSection } from "@/components/motion/MotionSection";
+import { MotionStagger, MotionStaggerItem } from "@/components/motion/MotionStagger";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import type { Destination } from "@/types";
 
@@ -14,49 +16,54 @@ export function DestinationGrid({ destinations }: DestinationGridProps) {
   return (
     <section className="section-padding bg-light-bg">
       <div className="container-wide">
-        <SectionHeading
-          title="Explore by Destination"
-          subtitle="Umrah, group tickets, visas, tours and corporate travel — all in one place"
-        />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <MotionSection>
+          <SectionHeading
+            title="Explore by Destination"
+            subtitle="Umrah, group tickets, visas, tours and corporate travel — all in one place"
+          />
+        </MotionSection>
+        <MotionStagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {destinations.map((dest) => (
+            <MotionStaggerItem key={dest.id}>
             <Link
-              key={dest.id}
               href={dest.href}
-              className="group relative overflow-hidden rounded-2xl border border-border/50 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-gold/40 hover:shadow-lg"
+              className="destination-card group"
             >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <Image
                   src={assetPath(dest.image)}
                   alt={dest.label}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                   unoptimized
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-navy/10" />
+                <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-navy/40 to-transparent" />
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                <h3 className="font-heading text-lg font-bold">{dest.label}</h3>
+                <h3 className="font-heading text-lg font-bold drop-shadow-sm">{dest.label}</h3>
                 <p className="flex items-center gap-1 text-xs text-gold-light">
-                  <MapPin className="h-3 w-3" /> {dest.country}
+                  <MapPin className="h-3 w-3 shrink-0" /> {dest.country}
                 </p>
-                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
                   {dest.availableCount !== undefined && dest.availableCount > 0 && (
-                    <span className="rounded-full bg-white/15 px-2 py-0.5">{dest.availableCount} available</span>
+                    <span className="rounded-full bg-white/15 px-2.5 py-0.5 backdrop-blur-sm">{dest.availableCount} available</span>
                   )}
                   {dest.startingPrice && (
-                    <span className="rounded-full bg-gold/90 px-2 py-0.5 font-medium text-navy">
+                    <span className="rounded-full bg-gold px-2.5 py-0.5 font-semibold text-navy shadow-sm">
                       From {formatPrice(dest.startingPrice, dest.currency || "PKR")}
                     </span>
                   )}
                 </div>
-                <span className="mt-2 inline-flex items-center text-xs opacity-0 transition-opacity group-hover:opacity-100">
-                  View details <ArrowRight className="ml-1 h-3 w-3" />
+                <span className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-gold-light opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100">
+                  View details <ArrowRight className="h-3 w-3" />
                 </span>
               </div>
             </Link>
+            </MotionStaggerItem>
           ))}
-        </div>
+        </MotionStagger>
         <div className="mt-8 text-center">
           <Link href="/destinations/" className="text-sm font-medium text-royal hover:text-gold">
             View all destinations →

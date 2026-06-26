@@ -1,19 +1,32 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { buttonVariants } from "@/components/ui/button";
+import { MotionSection } from "@/components/motion/MotionSection";
+import { MotionStagger, MotionStaggerItem } from "@/components/motion/MotionStagger";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { SITE } from "@/lib/constants";
 import { bookingMessage, whatsappLink } from "@/lib/whatsapp";
 
+const features = [
+  "Group Ticketing",
+  "Visa Coordination",
+  "24/7 Support",
+  "Group Discounts",
+  "Document Support",
+  "Dedicated Manager",
+];
+
 export function CorporateTravelCTA() {
+  const reduced = useReducedMotion();
   const msg = bookingMessage("corporate travel proposal", "We are an NGO/company looking for group travel management.");
 
   return (
     <section className="section-padding bg-navy text-white">
       <div className="container-wide">
         <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div>
+          <MotionSection>
             <SectionHeading
               title="Corporate Travel Management for NGOs, Companies & Groups"
               subtitle="Trusted by NGOs, companies, schools, universities, religious groups and delegations"
@@ -32,14 +45,19 @@ export function CorporateTravelCTA() {
                 WhatsApp Corporate Desk
               </a>
             </div>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {["Group Ticketing", "Visa Coordination", "24/7 Support", "Group Discounts", "Document Support", "Dedicated Manager"].map((item) => (
-              <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
-                <span className="text-gold">✓</span> {item}
-              </div>
+          </MotionSection>
+          <MotionStagger className="grid gap-3 sm:grid-cols-2">
+            {features.map((item) => (
+              <MotionStaggerItem key={item}>
+                <motion.div
+                  whileHover={reduced ? undefined : { y: -3, borderColor: "rgba(201, 162, 39, 0.4)" }}
+                  className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm transition-colors hover:bg-white/10"
+                >
+                  <span className="text-gold">✓</span> {item}
+                </motion.div>
+              </MotionStaggerItem>
             ))}
-          </div>
+          </MotionStagger>
         </div>
       </div>
     </section>

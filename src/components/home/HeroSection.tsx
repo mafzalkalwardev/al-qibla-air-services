@@ -79,20 +79,28 @@ export function HeroSection() {
             </Link>
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-2">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mt-10 flex flex-wrap gap-2"
+          >
             {TRUST_BADGES.map((badge, i) => {
               const Icon = badgeIcons[i] || Shield;
               return (
-                <span
+                <motion.span
                   key={badge}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/90"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6 + i * 0.08, duration: 0.35 }}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm"
                 >
                   <Icon className="h-3.5 w-3.5 text-gold" />
                   {badge}
-                </span>
+                </motion.span>
               );
             })}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

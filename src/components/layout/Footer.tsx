@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, MessageCircle, Phone } from "lucide-react";
+import { assetPath } from "@/lib/base-path";
 import { LOGO_PATH, NAV_LINKS, OFFICES, SITE, SOCIAL, TRUST_TEXT } from "@/lib/constants";
 import { FacebookIcon, InstagramIcon } from "@/components/shared/SocialIcons";
 
@@ -21,7 +22,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <Image src={LOGO_PATH} alt={SITE.name} width={56} height={56} className="h-14 w-14 rounded-lg object-contain" unoptimized />
+              <Image src={assetPath(LOGO_PATH)} alt={SITE.name} width={56} height={56} className="h-14 w-14 rounded-lg object-contain ring-1 ring-white/10" unoptimized />
               <div>
                 <p className="font-heading text-lg font-bold">{SITE.shortName}</p>
                 <p className="text-sm text-gold-light">Air Services</p>

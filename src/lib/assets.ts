@@ -1,4 +1,4 @@
-/** Travel imagery — local JPGs in public/assets (Pexels / Wikimedia, free licenses) */
+/** Travel imagery — local assets in public/assets */
 
 export const ASSETS = {
   logo: "/assets/logo/logo.png",

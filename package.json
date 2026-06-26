@@ -10,7 +10,8 @@
     "lint": "eslint",
     "generate-assets": "node scripts/generate-assets.js",
     "download-images": "node scripts/download-travel-images.js",
-    "download-airline-logos": "node scripts/download-airline-logos.js"
+    "download-airline-logos": "node scripts/download-airline-logos.js",
+    "capture-screenshots": "node scripts/capture-screenshots.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -38,6 +39,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "playwright": "^1.58.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
