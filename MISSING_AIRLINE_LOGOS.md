@@ -1,49 +1,27 @@
-# Missing Airline Logos
+# Airline Logos — Al Qibla Air Services
 
-Place official airline logos (SVG or PNG) in `public/assets/airlines/` using **IATA code** as filename.
+Real airline logos are stored locally at:
 
-Example: `pk.svg` for Pakistan International Airlines.
+```
+public/assets/airlines/{iata-code}.png
+```
 
-## Airlines to add manually
+Example: `pk.png`, `ek.png`, `9p.png`
 
-Only add logos you are authorized to use (official brand kits, partner agreements, or your own licensed assets).
+## Refresh logos
 
-| Code | Airline |
-|------|---------|
-| PK | Pakistan International Airlines |
-| PA | Airblue |
-| PF | AirSial |
-| 9P | Fly Jinnah |
-| ER | Serene Air |
-| EK | Emirates |
-| EY | Etihad Airways |
-| FZ | Flydubai |
-| G9 | Air Arabia |
-| QR | Qatar Airways |
-| SV | Saudia |
-| XY | Flynas |
-| F3 | Flyadeal |
-| WY | Oman Air |
-| OV | SalamAir |
-| KU | Kuwait Airways |
-| J9 | Jazeera Airways |
-| GF | Gulf Air |
-| TK | Turkish Airlines |
-| PC | Pegasus Airlines |
-| BA | British Airways |
-| VS | Virgin Atlantic |
-| CA | Air China |
-| CZ | China Southern Airlines |
-| OD | Batik Air |
-| TG | Thai Airways |
-| UL | SriLankan Airlines |
-| HY | Uzbekistan Airways |
-| KC | Air Astana |
-| FS | FlyArystan |
-| J2 | Azerbaijan Airlines (AZAL) |
-| LH | Lufthansa |
-| ET | Ethiopian Airlines |
+```bash
+npm run download-airline-logos
+```
 
-**Current status:** SVG placeholder badges exist for all codes. Replace with official logos when available.
+Logos are fetched by IATA code and saved as PNG for offline use on the website and Vercel deployment.
 
-The `AirlineLogo` component shows a polished code badge fallback when the image file is missing or fails to load.
+## Airlines included (33)
+
+PK, PA, PF, 9P, ER, EK, EY, FZ, G9, QR, SV, XY, F3, WY, OV, KU, J9, GF, TK, PC, BA, VS, CA, CZ, OD, TG, UL, HY, KC, FS, J2, LH, ET
+
+## Replace with official assets
+
+For brand compliance, you may replace any PNG with an official logo from the airline's media kit — keep the same filename (e.g. `pk.png`).
+
+Legacy SVG code-badge fallbacks remain in the folder but are no longer referenced by the site.

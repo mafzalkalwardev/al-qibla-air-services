@@ -15,20 +15,21 @@ interface AirlineLogoProps {
 }
 
 const sizes = {
-  sm: { box: "h-10 w-10", img: 32 },
-  md: { box: "h-14 w-14", img: 44 },
-  lg: { box: "h-16 w-16", img: 52 },
+  sm: { box: "h-12 w-12", img: 40, pad: "p-1" },
+  md: { box: "h-16 w-16", img: 52, pad: "p-1.5" },
+  lg: { box: "h-20 w-20", img: 64, pad: "p-2" },
 };
 
 export function AirlineLogo({ code, name, logo, size = "md", className }: AirlineLogoProps) {
   const [failed, setFailed] = useState(false);
-  const logoPath = logo || `/assets/airlines/${code.toLowerCase()}.svg`;
+  const lower = code.toLowerCase();
+  const logoPath = logo || `/assets/airlines/${lower}.png`;
   const s = sizes[size];
 
   return (
     <div
       className={cn(
-        "relative flex items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-white shadow-sm",
+        "relative flex items-center justify-center overflow-hidden rounded-xl border border-border/50 bg-white shadow-sm transition-shadow hover:shadow-md",
         s.box,
         className
       )}
@@ -40,7 +41,7 @@ export function AirlineLogo({ code, name, logo, size = "md", className }: Airlin
           alt={`${name} logo`}
           width={s.img}
           height={s.img}
-          className="object-contain p-1.5"
+          className={cn("h-full w-full object-contain", s.pad)}
           unoptimized
           onError={() => setFailed(true)}
         />
