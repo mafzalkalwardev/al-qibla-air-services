@@ -60,6 +60,7 @@ export const TRUST_TEXT = [
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about/", label: "About Us" },
+  { href: "/flight-booking/", label: "Book Flights" },
   { href: "/services/", label: "Services" },
   { href: "/available-tickets/", label: "Available Tickets" },
   { href: "/destinations/", label: "Destinations" },

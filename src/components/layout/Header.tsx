@@ -15,6 +15,7 @@ import { assetPath } from "@/lib/base-path";
 const MAIN_NAV = [
   { href: "/", label: "Home" },
   { href: "/about/", label: "About Us" },
+  { href: "/flight-booking/", label: "Book Flights" },
   { href: "/available-tickets/", label: "Available Tickets" },
   { href: "/destinations/", label: "Destinations" },
   { href: "/gallery/", label: "Gallery" },
