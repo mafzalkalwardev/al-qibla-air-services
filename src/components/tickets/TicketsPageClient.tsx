@@ -7,12 +7,16 @@ import { TicketFiltersPanel } from "@/components/tickets/TicketFiltersPanel";
 import { LastSynced } from "@/components/tickets/LastSynced";
 import { filterTickets, getUniqueFilterOptions } from "@/lib/ticket-filters";
 import { airlines } from "@/data/airlines";
-import { tickets, ticketsSyncMetadata } from "@/data/tickets";
-import type { TicketFilters } from "@/types";
+import type { SyncMetadata, Ticket, TicketFilters } from "@/types";
 
 const airlineNames = Object.fromEntries(airlines.map((a) => [a.code, a.name]));
 
-export function TicketsPageClient() {
+interface TicketsPageClientProps {
+  tickets: Ticket[];
+  syncMetadata: SyncMetadata;
+}
+
+export function TicketsPageClient({ tickets, syncMetadata }: TicketsPageClientProps) {
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState<TicketFilters>({});
 
@@ -26,14 +30,22 @@ export function TicketsPageClient() {
     if (date) initial.date = date;
     const airline = searchParams.get("airline");
     if (airline && airline !== "All Airlines") {
-      const codeMap: Record<string, string> = { PIA: "PK", Saudia: "SV", Emirates: "EK", Airblue: "PA", AirSial: "PF", "Qatar Airways": "QR", "Fly Jinnah": "9P" };
+      const codeMap: Record<string, string> = {
+        PIA: "PK",
+        Saudia: "SV",
+        Emirates: "EK",
+        Airblue: "PA",
+        AirSial: "PF",
+        "Qatar Airways": "QR",
+        "Fly Jinnah": "9P",
+      };
       initial.airline = codeMap[airline] || airline;
     }
     setFilters(initial);
   }, [searchParams]);
 
-  const options = useMemo(() => getUniqueFilterOptions(tickets), []);
-  const filtered = useMemo(() => filterTickets(tickets, filters), [filters]);
+  const options = useMemo(() => getUniqueFilterOptions(tickets), [tickets]);
+  const filtered = useMemo(() => filterTickets(tickets, filters), [tickets, filters]);
 
   return (
     <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
@@ -50,7 +62,7 @@ export function TicketsPageClient() {
           <p className="text-sm text-muted-foreground">
             Showing <strong className="text-navy">{filtered.length}</strong> of {tickets.length} group tickets
           </p>
-          <LastSynced lastSyncedAt={ticketsSyncMetadata.lastSyncedAt} source={ticketsSyncMetadata.source} />
+          <LastSynced lastSyncedAt={syncMetadata.lastSyncedAt} source={syncMetadata.source} />
         </div>
         {filtered.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border p-12 text-center">

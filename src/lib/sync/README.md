@@ -2,37 +2,21 @@
 
 ## Current State
 
-The website uses **mock data** from `src/data/` loaded through `IDataProvider` in `src/lib/data-provider.ts`.
+When `TRAVELLINE_AGENT_USERNAME` and `TRAVELLINE_AGENT_PASSWORD` are set, cron jobs sync inventory from Travel Line into Supabase. Customer bookings use hold-then-pay via `/api/bookings`.
 
-## Approved Sync Methods Only
+## Approved Sync Methods
 
-Travel Line or any third-party sync must be done **only** with:
+- Authorized sub-agent portal access (server-side only)
+- Configurable HTTP API paths (see `src/lib/travelline/INTEGRATION.md`)
+- Optional Playwright fallback when `TRAVELLINE_USE_PLAYWRIGHT=true`
 
-- Official partner API access
-- Written permission from the data provider
-- Approved CSV export/import workflows
-- Publicly allowed data sources
+**Do not** expose Travel Line branding or credentials to the browser.
 
-**Do not** bypass login, CAPTCHA, private APIs, or protected systems.
+## Cron Endpoints
 
-## Future Integration Options
+- `GET /api/cron/sync-tickets/` — every 30 min (Vercel cron)
+- `GET /api/cron/sync-packages/` — hourly
 
-1. **CSV Upload Provider** — Admin uploads exported ticket CSV; parser updates `tickets.ts` or a JSON store.
-2. **API Provider** — Replace `MockDataProvider` with `ApiDataProvider` calling your approved backend.
-3. **Sync Worker** — Cron job (e.g. hourly) fetches from approved source and writes to database/storage.
-4. **Manual Admin** — Future admin panel edits announcements, flyers, packages, and tickets.
+## Environment Variables
 
-## Frontend Contract
-
-- `getTicketsSyncMetadata()` returns `{ lastSyncedAt, source }` shown on the tickets page.
-- `filterTickets()` in `src/lib/ticket-filters.ts` mirrors server-side filter logic for API reuse.
-
-## Environment Variables (Future)
-
-```
-TICKETS_API_URL=
-TICKETS_API_KEY=
-SYNC_CRON_SECRET=
-```
-
-Not required for mock data operation.
+See `.env.example` for `TRAVELLINE_*` and `CRON_SECRET`.

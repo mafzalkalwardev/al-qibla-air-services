@@ -16,6 +16,7 @@ import {
   MapPin,
   LogOut,
   Menu,
+  ClipboardList,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import { useRouter } from "next/navigation";
 
 const links = [
   { href: "/admin/dashboard/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/bookings/", label: "Bookings", icon: ClipboardList },
   { href: "/admin/inquiries/", label: "Inquiries", icon: MessageSquare },
   { href: "/admin/reviews/", label: "Reviews", icon: Star },
   { href: "/admin/tickets/", label: "Tickets", icon: Ticket },

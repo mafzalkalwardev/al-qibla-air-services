@@ -6,7 +6,7 @@ export const SITE = {
     "Your trusted travel partner for Umrah packages, worldwide air ticketing, visit visas, hotels, tours and corporate travel.",
   description:
     "Premium travel agency offering domestic and international air ticketing, Umrah packages, visit visas, hotel reservations, travel insurance, and corporate travel management across Pakistan, UAE, Saudi Arabia, Afghanistan and worldwide.",
-  url: "https://mafzalkalwardev.github.io/al-qibla-air-services",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://al-qibla-air-services.vercel.app",
   whatsapp: "https://wa.me/923315576169",
   whatsappNumber: "+923315576169",
   email: "info@alqiblaairservices.com",

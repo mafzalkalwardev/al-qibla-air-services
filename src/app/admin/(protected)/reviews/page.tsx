@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/reviews/StarRating";
@@ -13,7 +13,7 @@ export default function AdminReviewsPage() {
   const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("pending");
   const [loading, setLoading] = useState(true);
 
-  async function load() {
+  const load = useCallback(async () => {
     if (!isSupabaseConfigured()) {
       setLoading(false);
       return;
@@ -24,11 +24,11 @@ export default function AdminReviewsPage() {
     const { data } = await query;
     setReviews((data as Review[]) || []);
     setLoading(false);
-  }
+  }, [filter]);
 
   useEffect(() => {
     load();
-  }, [filter]);
+  }, [load]);
 
   async function updateStatus(id: string, status: "approved" | "rejected") {
     const supabase = createClient();

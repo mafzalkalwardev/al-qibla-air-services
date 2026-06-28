@@ -168,8 +168,10 @@ NEXT_PUBLIC_WHATSAPP_NUMBER=923315576169
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_DB_PASSWORD=
 CRON_SECRET=
 ADMIN_EMAIL=
+ADMIN_PASSWORD=
 ```
 
 > **Never expose `SUPABASE_SERVICE_ROLE_KEY` on the client.**
@@ -193,6 +195,7 @@ npm run capture-screenshots   # requires dev server running; saves to public/ass
 3. Optionally run `supabase/seed.sql`
 4. Create storage buckets: `flyers`, `gallery`, `packages`, `blog`, `airlines`, `heroes`, `reviews`
 5. Add environment variables to `.env.local`
+6. Run `npm run check-db` to verify the live schema
 6. Create admin user in Supabase Auth + insert `profiles` row
 
 Full guide: [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
@@ -203,7 +206,7 @@ Full guide: [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
 2. Import project in [Vercel](https://vercel.com)
 3. Add all environment variables
 4. Deploy — API routes and admin work automatically
-5. Optional: configure Vercel Cron for `/api/cron/sync-tickets/`
+5. Configure Vercel Cron for `/api/cron/sync-tickets/` and `/api/cron/sync-packages/`
 
 ## Asset Guides
 

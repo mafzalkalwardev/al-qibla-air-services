@@ -3,15 +3,17 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { dataProvider } from "@/lib/data-provider";
 
 export default async function AdminDashboardPage() {
-  const [inquiries, allTickets, umrah, blog, flyers] = await Promise.all([
+  const [inquiries, allTickets, umrah, blog, flyers, pendingBookings] = await Promise.all([
     getInquiryCount(),
     dataProvider.getTickets(),
     dataProvider.getUmrahPackages(),
     dataProvider.getBlogPosts(),
     dataProvider.getFlyers(),
+    getPendingBookingsCount(),
   ]);
 
   const stats = [
+    { label: "Pending Bookings", value: pendingBookings, href: "/admin/bookings/" },
     { label: "New Inquiries", value: inquiries.new, href: "/admin/inquiries/" },
     { label: "Pending Reviews", value: inquiries.pendingReviews, href: "/admin/reviews/" },
     { label: "Active Tickets", value: allTickets.filter((t) => t.status !== "sold_out").length, href: "/admin/tickets/" },
@@ -67,4 +69,18 @@ async function getInquiryCount() {
   }
 
   return { new: newCount, pendingReviews };
+}
+
+async function getPendingBookingsCount() {
+  if (!isSupabaseConfigured()) return 0;
+  try {
+    const supabase = await createClient();
+    const { count } = await supabase
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending_payment");
+    return count || 0;
+  } catch {
+    return 0;
+  }
 }

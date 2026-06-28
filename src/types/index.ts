@@ -178,6 +178,39 @@ export interface SyncMetadata {
   source: string;
 }
 
+export type BookingStatus =
+  | "pending_payment"
+  | "payment_confirmed"
+  | "booking_in_progress"
+  | "confirmed"
+  | "failed"
+  | "cancelled";
+
+export type BookingProductType = "ticket" | "umrah" | "tour";
+
+export interface Booking {
+  id: string;
+  status: BookingStatus;
+  product_type: BookingProductType;
+  ticket_id?: string;
+  umrah_package_id?: string;
+  tour_package_id?: string;
+  external_product_id?: string;
+  customer_name: string;
+  customer_phone: string;
+  customer_email?: string;
+  passenger_details: Record<string, unknown>;
+  passengers: number;
+  quoted_price: number;
+  currency: string;
+  travelline_booking_ref?: string;
+  admin_notes?: string;
+  error_message?: string;
+  source_page?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface GalleryItem {
   id: string;
   src: string;

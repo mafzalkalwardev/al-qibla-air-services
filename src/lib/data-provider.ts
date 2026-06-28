@@ -9,6 +9,8 @@ import { testimonials } from "@/data/testimonials";
 import { tickets, ticketsSyncMetadata } from "@/data/tickets";
 import { filterTickets } from "@/lib/ticket-filters";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { isTravelLineSyncEnabled } from "@/lib/travelline/env";
+import { readLocalSyncMeta, readLocalTickets } from "@/lib/sync/local-inventory";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type {
   Airline,
@@ -212,14 +214,48 @@ class SupabaseDataProvider implements IDataProvider {
   async getTickets(filters?: TicketFilters) {
     try {
       const supabase = createAdminClient();
-      const { data } = await supabase.from("tickets").select("*").eq("active", true);
-      if (!data?.length) return this.mock.getTickets(filters);
-      const mapped = data.map(mapTicket);
+      const { data, error } = await supabase.from("tickets").select("*").eq("active", true);
+      if (!error && data?.length) {
+        const mapped = data.map(mapTicket);
+        if (!filters) return mapped;
+        return filterTickets(mapped, filters);
+      }
+    } catch {
+      /* fallback */
+    }
+
+    const local = readLocalTickets();
+    if (local.length) {
+      const mapped: Ticket[] = local.map((t, i) => ({
+        id: t.externalId || String(i),
+        airline: t.airline,
+        airlineCode: t.airlineCode,
+        flightNumber: t.flightNumber,
+        from: t.from,
+        fromCity: t.fromCity,
+        to: t.to,
+        toCity: t.toCity,
+        sector: t.sector,
+        destination: t.destination,
+        date: t.date,
+        departureTime: t.departureTime,
+        arrivalTime: t.arrivalTime,
+        duration: t.duration,
+        price: t.price,
+        currency: t.currency,
+        seatsLeft: t.seatsLeft,
+        status: t.status === "booked" ? "sold_out" : t.status,
+        baggage: t.baggage,
+        meal: t.meal,
+        tripType: (t.tripType as Ticket["tripType"]) || "oneway",
+        isDirect: t.isDirect,
+        lastUpdated: new Date().toISOString(),
+      }));
       if (!filters) return mapped;
       return filterTickets(mapped, filters);
-    } catch {
-      return this.mock.getTickets(filters);
     }
+
+    return this.mock.getTickets(filters);
   }
 
   async getTicketsSyncMetadata(): Promise<SyncMetadata> {
@@ -237,7 +273,12 @@ class SupabaseDataProvider implements IDataProvider {
     } catch {
       /* fallback */
     }
-    return ticketsSyncMetadata;
+    const localMeta = readLocalSyncMeta();
+    if (localMeta.ticketsCount > 0) {
+      return { lastSyncedAt: localMeta.lastSyncedAt, source: localMeta.source };
+    }
+    const meta = await this.mock.getTicketsSyncMetadata();
+    return { ...meta, source: isTravelLineSyncEnabled() ? "travelline" : meta.source };
   }
 
   async getAirlines() {

@@ -26,6 +26,20 @@ function loadEnv() {
 const env = loadEnv();
 const productionUrl = "https://al-qibla-air-services.vercel.app";
 
+const optionalVars = {
+  CRON_SECRET: env.CRON_SECRET,
+  TRAVELLINE_AGENT_USERNAME: env.TRAVELLINE_AGENT_USERNAME,
+  TRAVELLINE_AGENT_PASSWORD: env.TRAVELLINE_AGENT_PASSWORD,
+  TRAVELLINE_BASE_URL: env.TRAVELLINE_BASE_URL || "https://travellinetour.com",
+  TRAVELLINE_ADMIN_URL: env.TRAVELLINE_ADMIN_URL || "https://admin.travellinetour.com",
+  TRAVELLINE_FLIGHTS_API_PATH: env.TRAVELLINE_FLIGHTS_API_PATH || "/api/flights",
+  TRAVELLINE_UMRAH_API_PATH: env.TRAVELLINE_UMRAH_API_PATH || "/api/umrah-packages",
+  TRAVELLINE_TOURS_API_PATH: env.TRAVELLINE_TOURS_API_PATH || "/api/tour-packages",
+  TRAVELLINE_PROMOS_API_PATH: env.TRAVELLINE_PROMOS_API_PATH || "/api/promos",
+  TRAVELLINE_PRICE_MARKUP_PERCENT: env.TRAVELLINE_PRICE_MARKUP_PERCENT || "0",
+  TRAVELLINE_USE_PLAYWRIGHT: env.TRAVELLINE_USE_PLAYWRIGHT || "false",
+};
+
 const vars = {
   NEXT_PUBLIC_SUPABASE_URL: env.NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
@@ -35,10 +49,16 @@ const vars = {
   NEXT_PUBLIC_WHATSAPP_NUMBER: env.NEXT_PUBLIC_WHATSAPP_NUMBER || "923315576169",
   NEXT_PUBLIC_BASE_PATH: env.NEXT_PUBLIC_BASE_PATH || "",
   ADMIN_EMAIL: env.ADMIN_EMAIL || "salesalqibla@gmail.com",
+  ADMIN_PASSWORD: env.ADMIN_PASSWORD,
+  ...optionalVars,
 };
 
 const missing = Object.entries(vars).filter(
-  ([k, v]) => !v && k !== "NEXT_PUBLIC_BASE_PATH" && k !== "CRON_SECRET"
+  ([k, v]) =>
+    !v &&
+    k !== "NEXT_PUBLIC_BASE_PATH" &&
+    !k.startsWith("TRAVELLINE_") &&
+    k !== "CRON_SECRET"
 );
 if (missing.length) {
   console.error("Missing env values:", missing.map(([k]) => k).join(", "));
@@ -66,6 +86,7 @@ function addEnv(name, value, target) {
 }
 
 for (const [name, value] of Object.entries(vars)) {
+  if (!value) continue;
   for (const target of targets) {
     addEnv(name, value, target);
   }

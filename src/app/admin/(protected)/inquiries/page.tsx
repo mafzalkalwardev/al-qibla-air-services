@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
@@ -24,7 +24,7 @@ export default function AdminInquiriesPage() {
   const [filter, setFilter] = useState("new");
   const [loading, setLoading] = useState(true);
 
-  async function load() {
+  const load = useCallback(async () => {
     if (!isSupabaseConfigured()) {
       setLoading(false);
       return;
@@ -35,11 +35,11 @@ export default function AdminInquiriesPage() {
     const { data } = await query;
     setInquiries((data as InquiryRow[]) || []);
     setLoading(false);
-  }
+  }, [filter]);
 
   useEffect(() => {
     load();
-  }, [filter]);
+  }, [load]);
 
   async function updateStatus(id: string, status: string) {
     const supabase = createClient();

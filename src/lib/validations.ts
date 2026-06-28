@@ -27,3 +27,30 @@ export const inquirySchema = z.object({
 
 export type ReviewInput = z.infer<typeof reviewSchema>;
 export type InquiryInput = z.infer<typeof inquirySchema>;
+
+export const bookingSchema = z.object({
+  product_type: z.enum(["ticket", "umrah", "tour"]),
+  ticket_id: z.string().uuid().optional(),
+  umrah_package_id: z.string().uuid().optional(),
+  tour_package_id: z.string().uuid().optional(),
+  external_product_id: z.string().optional(),
+  customer_name: z.string().min(2, "Name is required"),
+  customer_phone: z.string().min(7, "Phone is required"),
+  customer_email: z.string().email().optional().or(z.literal("")),
+  passengers: z.coerce.number().int().positive().default(1),
+  quoted_price: z.coerce.number().positive(),
+  currency: z.string().default("PKR"),
+  passenger_details: z
+    .object({
+      names: z.string().optional(),
+      cnic: z.string().optional(),
+      passport: z.string().optional(),
+      notes: z.string().optional(),
+    })
+    .passthrough()
+    .default({}),
+  source_page: z.string().optional(),
+  product_title: z.string().optional(),
+});
+
+export type BookingInput = z.infer<typeof bookingSchema>;

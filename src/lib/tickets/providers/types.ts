@@ -32,7 +32,19 @@ export interface TicketSyncResult {
   ticketsCreated: number;
   ticketsUpdated: number;
   ticketsDeactivated: number;
+  changes?: SyncChange[];
   message?: string;
+}
+
+export interface SyncChange {
+  provider: string;
+  entityType: "ticket" | "umrah_package" | "tour_package" | "promo";
+  entityId?: string;
+  externalId?: string;
+  changeType: "created" | "updated" | "deactivated";
+  fieldChanges?: Record<string, { old: unknown; new: unknown }>;
+  oldValue?: Record<string, unknown> | null;
+  newValue?: Record<string, unknown> | null;
 }
 
 export interface TicketProvider {

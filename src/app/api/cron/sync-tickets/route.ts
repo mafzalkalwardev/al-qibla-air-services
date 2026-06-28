@@ -1,21 +1,33 @@
 import { NextResponse } from "next/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { writeSyncLog } from "@/lib/sync/log-sync";
 import { ManualTicketProvider } from "@/lib/tickets/providers/manualProvider";
+import { TravelLineTicketProvider } from "@/lib/tickets/providers/travelLineProvider";
+import { isTravelLineSyncEnabled } from "@/lib/travelline/env";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 120;
+
+function getProvider() {
+  return isTravelLineSyncEnabled() ? new TravelLineTicketProvider() : new ManualTicketProvider();
+}
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
+  if (!cronSecret && process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "CRON_SECRET is required" }, { status: 500 });
+  }
+
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const provider = getProvider();
+  const result = await provider.sync();
+
   if (!isSupabaseConfigured()) {
-    const provider = new ManualTicketProvider();
-    const result = await provider.sync();
     return NextResponse.json({
       ...result,
       lastSyncedAt: new Date().toISOString(),
@@ -24,19 +36,15 @@ export async function GET(request: Request) {
   }
 
   try {
-    const supabase = createAdminClient();
-    const provider = new ManualTicketProvider();
-    const result = await provider.sync();
-
-    await supabase.from("sync_logs").insert({
+    await writeSyncLog({
       provider: result.provider,
       status: result.status,
-      tickets_processed: result.ticketsProcessed,
-      tickets_created: result.ticketsCreated,
-      tickets_updated: result.ticketsUpdated,
-      tickets_deactivated: result.ticketsDeactivated,
+      processed: result.ticketsProcessed,
+      created: result.ticketsCreated,
+      updated: result.ticketsUpdated,
+      deactivated: result.ticketsDeactivated,
       message: result.message,
-      completed_at: new Date().toISOString(),
+      changes: result.changes,
     });
 
     return NextResponse.json({

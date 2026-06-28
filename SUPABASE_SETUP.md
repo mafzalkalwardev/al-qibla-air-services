@@ -14,10 +14,12 @@ Create `.env.local`:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+SUPABASE_DB_PASSWORD=your-database-password
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_WHATSAPP_NUMBER=923315576169
 CRON_SECRET=your-random-cron-secret
 ADMIN_EMAIL=admin@yourdomain.com
+ADMIN_PASSWORD=use-a-strong-password
 ```
 
 ## 3. Run database schema
@@ -26,6 +28,13 @@ In Supabase SQL Editor, run:
 
 1. `supabase/schema.sql` — tables, indexes, RLS policies
 2. `supabase/seed.sql` — optional development seed data
+
+If you add `SUPABASE_DB_PASSWORD` from Supabase Dashboard > Settings > Database, you can apply the schema locally:
+
+```bash
+node scripts/apply-schema.js
+npm run check-db
+```
 
 ## 4. Storage buckets
 
@@ -61,7 +70,7 @@ RLS is defined in `schema.sql`:
 - **Public** can insert inquiries and pending reviews (with consent).
 - **Admin** (profiles.role = admin) has full CRUD via `is_admin()` helper.
 
-## 7. Cron ticket sync (future)
+## 7. Cron ticket sync
 
 Configure Vercel Cron to call:
 

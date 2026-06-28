@@ -26,10 +26,10 @@ loadEnvFile(path.join(__dirname, "..", ".env"));
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const email = process.env.ADMIN_EMAIL || "salesalqibla@gmail.com";
-const password = process.env.ADMIN_PASSWORD || "AlQibla@Admin2026!";
+const password = process.env.ADMIN_PASSWORD;
 
-if (!url || !serviceKey) {
-  console.error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+if (!url || !serviceKey || !password) {
+  console.error("Missing NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, or ADMIN_PASSWORD");
   process.exit(1);
 }
 

@@ -1,0 +1,22 @@
+name: TravelLine Sync
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync tickets
+        run: |
+          curl --fail --show-error --silent \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "https://al-qibla-air-services.vercel.app/api/cron/sync-tickets/"
+
+      - name: Sync packages
+        run: |
+          curl --fail --show-error --silent \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "https://al-qibla-air-services.vercel.app/api/cron/sync-packages/"
