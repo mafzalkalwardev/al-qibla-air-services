@@ -33,7 +33,7 @@ export async function POST(
 
   if (booking.status === "pending_payment") {
     return NextResponse.json(
-      { error: "Mark payment as confirmed before booking on Travel Line" },
+      { error: "Mark payment as confirmed before booking with the supplier" },
       { status: 400 }
     );
   }
@@ -48,11 +48,11 @@ export async function POST(
       .from("bookings")
       .update({
         status: "failed",
-        error_message: "Travel Line credentials not configured",
+        error_message: "Supplier credentials not configured",
         updated_at: new Date().toISOString(),
       })
       .eq("id", id);
-    return NextResponse.json({ error: "Travel Line not configured" }, { status: 400 });
+    return NextResponse.json({ error: "Supplier credentials not configured" }, { status: 400 });
   }
 
   try {

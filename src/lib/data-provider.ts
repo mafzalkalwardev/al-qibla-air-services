@@ -353,7 +353,7 @@ function mapUmrahPackage(row: Record<string, unknown>): TravelPackage {
     featured: Boolean(row.featured),
     status: row.status as TravelPackage["status"],
     type: "umrah",
-    packageCode: row.package_code as string,
+    packageCode: (row.package_code || row.external_id) as string,
     category: row.category as TravelPackage["category"],
     departureCity: row.departure_city as string,
     airline: row.airline as string,
@@ -380,6 +380,7 @@ function mapTourPackage(row: Record<string, unknown>): TravelPackage {
     featured: Boolean(row.featured),
     status: row.status as TravelPackage["status"],
     type: "tour",
+    packageCode: row.package_code as string,
     destination: row.destination as string,
   };
 }

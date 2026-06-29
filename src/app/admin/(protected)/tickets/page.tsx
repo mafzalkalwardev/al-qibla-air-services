@@ -86,7 +86,7 @@ export default function AdminTicketsPage() {
         <div>
           <h1 className="font-heading text-2xl font-bold text-navy">Tickets</h1>
           <p className="text-sm text-muted-foreground">
-            Inventory synced from Travel Line (white-label). {ticketCount} active tickets.
+            Inventory synced from the supplier feed. {ticketCount} active tickets.
           </p>
         </div>
         <Button onClick={runSync} disabled={syncing} variant="navy">

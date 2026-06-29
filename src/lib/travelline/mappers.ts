@@ -1,6 +1,7 @@
 import type { NormalizedTicket } from "@/lib/tickets/providers/types";
 import type { TravelLineRawFlight, TravelLineRawPackage, TravelLineRawPromo } from "./types";
 import type { TicketStatus } from "@/types";
+import { FALLBACK_IMAGES, normalizeImageUrl } from "@/lib/image-utils";
 
 /** Live response shape from GET /api/umrah-packages */
 export interface TravelLineUmrahApiItem {
@@ -132,7 +133,7 @@ export function mapFlights(
     .filter((t) => t.externalId && t.date);
 }
 
-/** Extract outbound + return group flight tickets from Travel Line umrah API items */
+/** Extract outbound + return group flight tickets from supplier package API items */
 export function ticketsFromUmrahApiItems(
   items: TravelLineUmrahApiItem[],
   markupPercent = 0
@@ -202,11 +203,7 @@ export function ticketsFromUmrahApiItems(
 }
 
 export function mapTravelLineUmrahApiItem(item: TravelLineUmrahApiItem, markupPercent = 0) {
-  const image = item.images?.[0]
-    ? item.images[0].startsWith("http")
-      ? item.images[0]
-      : `https://travellinetour.com${item.images[0]}`
-    : "/assets/gallery/umrah-1.svg";
+  const image = normalizeImageUrl(item.images?.[0], FALLBACK_IMAGES.umrah);
 
   const highlights: string[] = [];
   if (item.hotel?.makkahName) highlights.push(`Makkah: ${item.hotel.makkahName}`);
@@ -257,7 +254,7 @@ export function mapUmrahPackage(raw: TravelLineRawPackage, markupPercent = 0) {
     airline: raw.airline as string | undefined,
     seats_left: Number(raw.seatsLeft ?? 0) || null,
     highlights: (raw.highlights as string[]) || [],
-    image_url: String(raw.imageUrl ?? raw.image ?? "/assets/gallery/umrah-1.svg"),
+    image_url: normalizeImageUrl(raw.imageUrl ?? raw.image, FALLBACK_IMAGES.umrah),
     featured: Boolean(raw.featured),
     status: "active",
     raw_payload: raw,
@@ -277,7 +274,7 @@ export function mapTourPackage(raw: TravelLineRawPackage, markupPercent = 0) {
     currency: "PKR",
     duration: String(raw.duration ?? "7 Days"),
     highlights: (raw.highlights as string[]) || [],
-    image_url: String(raw.imageUrl ?? raw.image ?? "/assets/gallery/tour-1.svg"),
+    image_url: normalizeImageUrl(raw.imageUrl ?? raw.image, FALLBACK_IMAGES.tour),
     featured: Boolean(raw.featured),
     status: "active",
     raw_payload: raw,
@@ -288,7 +285,7 @@ export function mapPromoToFlyer(raw: TravelLineRawPromo, index: number) {
   return {
     title: String(raw.title ?? raw.message ?? `Offer ${index + 1}`),
     category: "umrah",
-    image_url: String(raw.imageUrl ?? raw.image ?? "/assets/flyers/default.svg"),
+    image_url: normalizeImageUrl(raw.imageUrl ?? raw.image, FALLBACK_IMAGES.flyer),
     link: raw.link as string | undefined,
     display_order: index,
     active: raw.active !== false,

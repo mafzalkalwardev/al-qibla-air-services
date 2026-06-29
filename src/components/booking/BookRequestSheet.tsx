@@ -27,6 +27,7 @@ interface BookRequestSheetProps {
   ticketId?: string;
   umrahPackageId?: string;
   tourPackageId?: string;
+  externalProductId?: string;
   sourcePage?: string;
 }
 
@@ -40,6 +41,7 @@ export function BookRequestSheet({
   ticketId,
   umrahPackageId,
   tourPackageId,
+  externalProductId,
   sourcePage,
 }: BookRequestSheetProps) {
   const [loading, setLoading] = useState(false);
@@ -66,6 +68,7 @@ export function BookRequestSheet({
           ticket_id: ticketId,
           umrah_package_id: umrahPackageId,
           tour_package_id: tourPackageId,
+          external_product_id: externalProductId,
           customer_name: form.name,
           customer_phone: form.phone,
           customer_email: form.email || undefined,

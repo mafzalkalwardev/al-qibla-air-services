@@ -1,8 +1,14 @@
 import { getTravelLineClient } from "@/lib/travelline/client";
 import { isTravelLineSyncEnabled } from "@/lib/travelline/env";
 import { mapPromoToAnnouncement, mapPromoToFlyer } from "@/lib/travelline/mappers";
-import { upsertPromos, upsertTourPackages, upsertUmrahPackages } from "@/lib/sync/upsert-inventory";
+import {
+  upsertPromos,
+  upsertTourPackages,
+  upsertUmrahPackages,
+  type UpsertTicketsResult,
+} from "@/lib/sync/upsert-inventory";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { ensureUsableImageUrl, FALLBACK_IMAGES } from "@/lib/image-utils";
 import type { SyncChange } from "@/lib/tickets/providers/types";
 
 export interface PackageSyncResult {
@@ -30,22 +36,24 @@ export async function syncTravelLinePackages(): Promise<PackageSyncResult> {
       toursProcessed: 0,
       promosProcessed: 0,
       changes: [],
-      message: "Travel Line sync not enabled",
+      message: "Supplier sync not enabled",
     };
   }
 
   try {
     const client = getTravelLineClient();
     const { umrah, tours, promos } = await client.fetchPackages();
+    const umrahRows = await verifyPackageImages(umrah as Record<string, unknown>[], "umrah");
+    const tourRows = await verifyPackageImages(tours as Record<string, unknown>[], "tour");
 
-    let umrahResult = { created: 0, updated: 0, deactivated: 0, changes: [] as SyncChange[] };
-    let tourResult = { created: 0, updated: 0, deactivated: 0, changes: [] as SyncChange[] };
+    let umrahResult: UpsertTicketsResult = { created: 0, updated: 0, deactivated: 0, skipped: 0, changes: [] };
+    let tourResult: UpsertTicketsResult = { created: 0, updated: 0, deactivated: 0, skipped: 0, changes: [] };
 
     if (isSupabaseConfigured()) {
-      umrahResult = await upsertUmrahPackages(umrah as Record<string, unknown>[]);
-      tourResult = await upsertTourPackages(tours as Record<string, unknown>[]);
+      umrahResult = await upsertUmrahPackages(umrahRows);
+      tourResult = await upsertTourPackages(tourRows);
       if (promos.length) {
-        const flyerRows = promos.map((p, i) => mapPromoToFlyer(p, i));
+        const flyerRows = await verifyPromoImages(promos.map((p, i) => mapPromoToFlyer(p, i)));
         const announcementRows = promos.map((p, i) => mapPromoToAnnouncement(p, i));
         await upsertPromos(flyerRows, announcementRows);
       }
@@ -64,7 +72,7 @@ export async function syncTravelLinePackages(): Promise<PackageSyncResult> {
       toursUpdated: tourResult.updated,
       toursDeactivated: tourResult.deactivated,
       changes: [...umrahResult.changes, ...tourResult.changes],
-      message: `Synced ${umrah.length} umrah, ${tours.length} tours, ${promos.length} promos (${umrahResult.created + tourResult.created} new, ${umrahResult.updated + tourResult.updated} changed, ${umrahResult.deactivated + tourResult.deactivated} sold out)`,
+      message: `Synced ${umrah.length} umrah, ${tours.length} tours, ${promos.length} promos (${umrahResult.created + tourResult.created} new, ${umrahResult.updated + tourResult.updated} changed, ${umrahResult.deactivated + tourResult.deactivated} sold out, ${(umrahResult.skipped || 0) + (tourResult.skipped || 0)} incomplete skipped)`,
     };
   } catch (e) {
     return {
@@ -77,4 +85,23 @@ export async function syncTravelLinePackages(): Promise<PackageSyncResult> {
       message: e instanceof Error ? e.message : "Package sync failed",
     };
   }
+}
+
+async function verifyPackageImages(rows: Record<string, unknown>[], type: "umrah" | "tour") {
+  const fallback = type === "umrah" ? FALLBACK_IMAGES.umrah : FALLBACK_IMAGES.tour;
+  return Promise.all(
+    rows.map(async (row) => ({
+      ...row,
+      image_url: await ensureUsableImageUrl(row.image_url, fallback),
+    }))
+  );
+}
+
+async function verifyPromoImages(rows: Record<string, unknown>[]) {
+  return Promise.all(
+    rows.map(async (row) => ({
+      ...row,
+      image_url: await ensureUsableImageUrl(row.image_url, FALLBACK_IMAGES.flyer),
+    }))
+  );
 }

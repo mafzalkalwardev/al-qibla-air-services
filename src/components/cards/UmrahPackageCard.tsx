@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Clock, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { BookRequestSheet } from "@/components/booking/BookRequestSheet";
-import { assetPath } from "@/lib/base-path";
+import { SafeImage } from "@/components/shared/SafeImage";
+import { FALLBACK_IMAGES } from "@/lib/image-utils";
 import { formatPrice } from "@/lib/ticket-filters";
 import { cn } from "@/lib/utils";
 import type { TravelPackage } from "@/types";
@@ -24,13 +24,13 @@ export function UmrahPackageCard({ pkg }: UmrahPackageCardProps) {
     <>
       <Card className="card-premium group overflow-hidden">
         <div className="relative aspect-[16/10] overflow-hidden bg-navy-light">
-          <Image
-            src={assetPath(pkg.image)}
+          <SafeImage
+            src={pkg.image}
+            fallbackSrc={FALLBACK_IMAGES.umrah}
             alt={pkg.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
-            unoptimized
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy/30 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           {pkg.packageCode && (
@@ -80,6 +80,7 @@ export function UmrahPackageCard({ pkg }: UmrahPackageCardProps) {
         quotedPrice={pkg.price}
         currency={pkg.currency}
         umrahPackageId={pkg.id}
+        externalProductId={pkg.packageCode}
         sourcePage="/umrah-packages/"
       />
     </>

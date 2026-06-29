@@ -9,6 +9,7 @@ export interface UpsertTicketsResult {
   created: number;
   updated: number;
   deactivated: number;
+  skipped?: number;
   changes: SyncChange[];
 }
 
@@ -16,9 +17,12 @@ export async function upsertTickets(
   tickets: NormalizedTicket[],
   provider = PROVIDER
 ): Promise<UpsertTicketsResult> {
+  const validTickets = tickets.filter(isCompleteTicket);
+  const skipped = tickets.length - validTickets.length;
+
   if (!isSupabaseConfigured()) {
-    writeLocalTickets(tickets, provider);
-    return { created: tickets.length, updated: 0, deactivated: 0, changes: [] };
+    writeLocalTickets(validTickets, provider);
+    return { created: validTickets.length, updated: 0, deactivated: 0, skipped, changes: [] };
   }
 
   const supabase = createAdminClient();
@@ -26,8 +30,8 @@ export async function upsertTickets(
   // Verify tickets table exists
   const { error: probeError } = await supabase.from("tickets").select("id").limit(1);
   if (probeError?.message?.includes("Could not find the table")) {
-    writeLocalTickets(tickets, provider);
-    return { created: tickets.length, updated: 0, deactivated: 0, changes: [] };
+    writeLocalTickets(validTickets, provider);
+    return { created: validTickets.length, updated: 0, deactivated: 0, skipped, changes: [] };
   }
 
   let created = 0;
@@ -35,7 +39,7 @@ export async function upsertTickets(
   const changes: SyncChange[] = [];
   const seenIds: string[] = [];
 
-  for (const t of tickets) {
+  for (const t of validTickets) {
     seenIds.push(t.externalId);
     const row = {
       external_id: t.externalId,
@@ -125,7 +129,7 @@ export async function upsertTickets(
   }
 
   let deactivated = 0;
-  if (seenIds.length) {
+  if (seenIds.length && skipped === 0) {
     const { data: activeRows } = await supabase
       .from("tickets")
       .select("id, external_id, status, active, seats_left, price")
@@ -161,20 +165,22 @@ export async function upsertTickets(
     }
   }
 
-  return { created, updated, deactivated, changes };
+  return { created, updated, deactivated, skipped, changes };
 }
 
 export async function upsertUmrahPackages(
   rows: Record<string, unknown>[],
   provider = PROVIDER
 ): Promise<UpsertTicketsResult> {
+  const validRows = rows.filter((row) => isCompletePackageRow(row));
+  const skipped = rows.length - validRows.length;
   const supabase = createAdminClient();
   let created = 0;
   let updated = 0;
   const changes: SyncChange[] = [];
   const seenIds: string[] = [];
 
-  for (const row of rows) {
+  for (const row of validRows) {
     const externalId = String(row.external_id);
     seenIds.push(externalId);
     const { data: existing } = await supabase
@@ -212,22 +218,24 @@ export async function upsertUmrahPackages(
     }
   }
 
-  const stale = await deactivateStale(supabase, "umrah_packages", provider, seenIds);
+  const stale = skipped === 0 ? await deactivateStale(supabase, "umrah_packages", provider, seenIds) : { deactivated: 0, changes: [] };
   changes.push(...stale.changes);
-  return { created, updated, deactivated: stale.deactivated, changes };
+  return { created, updated, deactivated: stale.deactivated, skipped, changes };
 }
 
 export async function upsertTourPackages(
   rows: Record<string, unknown>[],
   provider = PROVIDER
 ): Promise<UpsertTicketsResult> {
+  const validRows = rows.filter((row) => isCompletePackageRow(row));
+  const skipped = rows.length - validRows.length;
   const supabase = createAdminClient();
   let created = 0;
   let updated = 0;
   const changes: SyncChange[] = [];
   const seenIds: string[] = [];
 
-  for (const row of rows) {
+  for (const row of validRows) {
     const externalId = String(row.external_id);
     seenIds.push(externalId);
     const { data: existing } = await supabase
@@ -265,9 +273,36 @@ export async function upsertTourPackages(
     }
   }
 
-  const stale = await deactivateStale(supabase, "tour_packages", provider, seenIds);
+  const stale = skipped === 0 ? await deactivateStale(supabase, "tour_packages", provider, seenIds) : { deactivated: 0, changes: [] };
   changes.push(...stale.changes);
-  return { created, updated, deactivated: stale.deactivated, changes };
+  return { created, updated, deactivated: stale.deactivated, skipped, changes };
+}
+
+function isCompleteTicket(ticket: NormalizedTicket): boolean {
+  return Boolean(
+    ticket.externalId &&
+      ticket.airline &&
+      ticket.airline !== "Unknown" &&
+      ticket.flightNumber &&
+      ticket.from &&
+      ticket.to &&
+      ticket.date &&
+      Number.isFinite(ticket.price) &&
+      ticket.price > 0 &&
+      Number.isFinite(ticket.seatsLeft)
+  );
+}
+
+function isCompletePackageRow(row: Record<string, unknown>): boolean {
+  return Boolean(
+    row.external_id &&
+      row.title &&
+      row.slug &&
+      row.duration &&
+      row.image_url &&
+      Number.isFinite(Number(row.price)) &&
+      Number(row.price) > 0
+  );
 }
 
 async function deactivateStale(

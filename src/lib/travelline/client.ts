@@ -32,7 +32,7 @@ export class TravelLineClient {
       headers: { Accept: "application/json" },
       next: { revalidate: 0 },
     });
-    if (!res.ok) throw new Error(`Travel Line umrah-packages API returned ${res.status}`);
+    if (!res.ok) throw new Error(`Supplier package API returned ${res.status}`);
     const data = (await res.json()) as TravelLineUmrahApiItem[];
     this.umrahCache = data;
     return data;
@@ -121,7 +121,7 @@ export class TravelLineClient {
       return {
         success: false,
         error:
-          "Travel Line agent login unavailable — booking saved locally; place manually in agent portal",
+          "Supplier login unavailable - booking saved locally; retry from admin",
       };
     }
 
@@ -159,7 +159,7 @@ export class TravelLineClient {
 
     return {
       success: false,
-      error: "Booking API not available — complete booking manually in Travel Line agent portal",
+      error: "Supplier booking API not available - retry from admin",
     };
   }
 }

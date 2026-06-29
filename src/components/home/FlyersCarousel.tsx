@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
@@ -10,7 +9,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { MotionSection } from "@/components/motion/MotionSection";
-import { assetPath } from "@/lib/base-path";
+import { SafeImage } from "@/components/shared/SafeImage";
+import { FALLBACK_IMAGES } from "@/lib/image-utils";
 import { SITE } from "@/lib/constants";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { cn } from "@/lib/utils";
@@ -48,12 +48,12 @@ export function FlyersCarousel({ flyers }: FlyersCarouselProps) {
                     className="relative block aspect-[3/4] w-full overflow-hidden"
                     aria-label={`Preview ${flyer.title}`}
                   >
-                    <Image
-                      src={assetPath(flyer.image)}
+                    <SafeImage
+                      src={flyer.image}
+                      fallbackSrc={FALLBACK_IMAGES.flyer}
                       alt={flyer.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      unoptimized
                     />
                     <Badge className={cn("absolute left-3 top-3 capitalize", categoryColors[flyer.category])}>
                       {flyer.category}
@@ -102,7 +102,14 @@ export function FlyersCarousel({ flyers }: FlyersCarouselProps) {
             className="relative max-h-[85vh] max-w-lg w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image src={assetPath(preview.image)} alt={preview.title} width={600} height={800} className="mx-auto max-h-[75vh] w-auto rounded-xl object-contain shadow-2xl" unoptimized />
+            <SafeImage
+              src={preview.image}
+              fallbackSrc={FALLBACK_IMAGES.flyer}
+              alt={preview.title}
+              width={600}
+              height={800}
+              className="mx-auto max-h-[75vh] w-auto rounded-xl object-contain shadow-2xl"
+            />
             <div className="mt-4 flex justify-center gap-3">
               {preview.link && (
                 <Link href={preview.link} className={cn(buttonVariants({ variant: "outline" }), "border-white text-white")}>

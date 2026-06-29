@@ -58,7 +58,7 @@ export default function AdminBookingsPage() {
     const res = await fetch(`/api/admin/bookings/${id}/confirm/`, { method: "POST" });
     const json = await res.json();
     if (!res.ok) {
-      toast.error(json.error || "Booking on Travel Line failed");
+      toast.error(json.error || "Supplier booking failed");
     } else {
       toast.success(`Confirmed: ${json.bookingRef}`);
     }
@@ -80,7 +80,7 @@ export default function AdminBookingsPage() {
       <div>
         <h1 className="font-heading text-2xl font-bold text-navy">Bookings</h1>
         <p className="text-sm text-muted-foreground">
-          Hold-then-pay flow — confirm payment, then book on Travel Line.
+          Hold-then-pay flow - confirm payment, then complete supplier booking from this portal.
         </p>
       </div>
 
@@ -122,7 +122,7 @@ export default function AdminBookingsPage() {
                   <p><strong>Passengers:</strong> {b.passengers}</p>
                   <p><strong>Price:</strong> {Number(b.quoted_price).toLocaleString()} {b.currency}</p>
                   {b.travelline_booking_ref && (
-                    <p><strong>TL Ref:</strong> {b.travelline_booking_ref}</p>
+                    <p><strong>Supplier Ref:</strong> {b.travelline_booking_ref}</p>
                   )}
                 </div>
                 {b.passenger_details && (
@@ -142,7 +142,7 @@ export default function AdminBookingsPage() {
                   )}
                   {b.status === "payment_confirmed" && (
                     <Button size="sm" className="bg-gold text-navy hover:bg-gold-light" onClick={() => confirmOnTravelLine(b.id)}>
-                      Book on Travel Line
+                      Book with Supplier
                     </Button>
                   )}
                   {(b.status === "pending_payment" || b.status === "payment_confirmed") && (

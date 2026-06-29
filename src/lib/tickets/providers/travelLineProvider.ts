@@ -23,7 +23,7 @@ export class TravelLineTicketProvider implements TicketProvider {
         ticketsCreated: 0,
         ticketsUpdated: 0,
         ticketsDeactivated: 0,
-        message: "Travel Line sync not enabled",
+        message: "Supplier sync not enabled",
       };
     }
 
@@ -42,7 +42,7 @@ export class TravelLineTicketProvider implements TicketProvider {
 
     try {
       const tickets = await this.fetchTickets();
-      const { created, updated, deactivated, changes } = await upsertTickets(tickets, this.name);
+      const { created, updated, deactivated, skipped, changes } = await upsertTickets(tickets, this.name);
       return {
         provider: this.name,
         status: tickets.length ? "success" : "partial",
@@ -52,7 +52,7 @@ export class TravelLineTicketProvider implements TicketProvider {
         ticketsDeactivated: deactivated,
         changes,
         message: tickets.length
-          ? `Synced ${tickets.length} tickets from Travel Line (${created} new, ${updated} changed, ${deactivated} sold out)`
+          ? `Synced ${tickets.length} tickets from supplier (${created} new, ${updated} changed, ${deactivated} sold out, ${skipped || 0} incomplete skipped)`
           : "No tickets returned — check API paths or enable TRAVELLINE_USE_PLAYWRIGHT",
       };
     } catch (e) {
