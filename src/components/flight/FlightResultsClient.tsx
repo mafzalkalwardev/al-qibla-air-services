@@ -86,7 +86,7 @@ export function FlightResultsClient({ criteria }: FlightResultsClientProps) {
               {criteria.from || "ISB"} to {criteria.to || "DXB"}
             </h1>
             <p className="mt-3 text-white/70">
-              {flights.length} curated options · {criteria.passengers || 1} traveler · {criteria.cabinClass || "Economy"}
+              {flights.length} curated options / {criteria.passengers || 1} traveler / {criteria.cabinClass || "Economy"}
             </p>
           </div>
           <RouteVisual fromCity={fromCity} toCity={toCity} />

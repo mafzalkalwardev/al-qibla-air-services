@@ -27,6 +27,9 @@ export function FlightBookingHero() {
             <Link href="/destinations/" className="inline-flex items-center rounded-xl border border-white/20 px-5 py-3 font-semibold text-white transition hover:bg-white/10">
               Explore Destinations
             </Link>
+            <Link href="/flight-booking/dashboard/" className="inline-flex items-center rounded-xl border border-white/20 px-5 py-3 font-semibold text-white transition hover:bg-white/10">
+              Traveler Dashboard
+            </Link>
           </div>
           <div className="mt-10 grid max-w-2xl gap-3 sm:grid-cols-3">
             {[
@@ -48,12 +51,12 @@ export function FlightBookingHero() {
             <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur">
               <p className="text-xs uppercase tracking-wider text-white/50">Trending route</p>
               <p className="mt-2 font-heading text-xl font-bold">Islamabad to Dubai</p>
-              <p className="mt-1 text-sm text-white/60">from $345 · direct</p>
+              <p className="mt-1 text-sm text-white/60">from $345 / direct</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur">
               <p className="text-xs uppercase tracking-wider text-white/50">Umrah flights</p>
               <p className="mt-2 font-heading text-xl font-bold">Karachi to Jeddah</p>
-              <p className="mt-1 text-sm text-white/60">from $318 · 40kg baggage</p>
+              <p className="mt-1 text-sm text-white/60">from $318 / 40kg baggage</p>
             </div>
           </div>
         </div>
